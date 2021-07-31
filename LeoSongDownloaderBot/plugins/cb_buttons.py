@@ -8,6 +8,7 @@ from LeoSongDownloaderBot import LeoSongDownloaderBot as app
 
 @app.on_callback_query()
 async def cb_data(client, message):
+    await callback_query_ytdl_audio(client, message)
     if message.data == "home":
         await message.message.edit_text(
             text=Translation.START_TEXT.format(message.from_user.mention),
