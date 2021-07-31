@@ -1,6 +1,7 @@
 import os
 from LeoSongDownloaderBot.translation import Translation
 import config
+from LeoSongDownloaderBot.plugins.youtube import callback_query_ytdl_audio
 from pyrogram import Client
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
