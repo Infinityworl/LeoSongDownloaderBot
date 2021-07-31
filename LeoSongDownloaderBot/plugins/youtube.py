@@ -19,7 +19,7 @@ s2tw = OpenCC('s2tw.json').convert
                    & filters.regex(YTDL_REGEX))
 async def ytdl_with_button(_, message: Message):
     await message.reply_text(
-        "**Click download button to download youtube url on audio format👇**",
+        "**Please click the below button to download your song 😊",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -47,7 +47,7 @@ async def callback_query_ytdl_audio(_, callback_query):
             await message.reply_chat_action("typing")
             info_dict = ydl.extract_info(url, download=False)
             # download
-            await callback_query.edit_message_text("**Downloading Your Audio...\n@leosongdownloaderbot 🇱🇰**")
+            await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
             ydl.process_info(info_dict)
             # upload
             audio_file = ydl.prepare_filename(info_dict)
