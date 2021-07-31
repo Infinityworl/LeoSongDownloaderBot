@@ -21,12 +21,20 @@ You should know following instructions to download songs 😊
 
 You can download song by,
 
-🔰<code>/song <song name></code>: Download songs from all sources
+🔰<code>/song <song name></code>: Download songs from yt
 Ex : <code>/song alone</code>
+
+🔰<code>/saavn <song name></code>: Download songs from saavn
+Ex : <code>/saavn faded</code>
 
 Or,
 
 🔰 via youtube URL s... Send me any Youtube URL to download it 😊
+
+You can get lyrics from songs by,
+
+🔰<code>/lyrics <song name></code>: Get lyrics
+Ex : <code>/lyrics faded</code>
 """
     ABOUT_TEXT = """
 🔰 **Bot :** [Leo Song Downloader Bot 🇱🇰](https://t.me/leosongdownloaderbot)
