@@ -3,7 +3,7 @@
 import os
 API_ID = int(os.getenv("API_ID", 2158704))
 API_HASH = os.getenv("API_HASH", "227f3bd8c1d7fc3ecfa243e1a85dd2fa")
-BOT_TOKEN = os.getenv("BOT_TOKEN", "1698103524:AAHMGhZ5IhFVxdk0WHg4-V-rdqRE4MHvWP4")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "1698103524:AAFCcZ6TKm2rbS-VFk6M9hIb8Us94i2FVB0")
 UPDATES_CHANNEL = int(os.environ.get("UPDATES_CHANNEL", -1001231683570))
 BOT_USERNAME = os.environ.get("BOT_USERNAME", "leosongdownloaderbot")
 SESSION_NAME = os.environ.get("SESSION_NAME", "LeoSongDownloaderBot")
