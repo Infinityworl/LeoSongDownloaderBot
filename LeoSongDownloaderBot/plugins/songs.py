@@ -71,12 +71,12 @@ def song(client, message):
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        rep = f'🎙**Title**: [{title[:35]}]({link})\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰'
+        rep = "🎙<b>Title</b>: [{title[:35]}]({link})\n🎵 <b>Source</b> : <code>Youtube</code>\n⏱️ <b>Song Duration</b>: <code>{duration}</code>\n👁‍🗨 <b>Song Views</b>: <code>{views}</code>\n\n<b>Downloaded By</b> : @leosongdownloaderbot 🇱🇰\n\n<b>Requested By</b> : {} 😊".format(message.from_user.mention)
         secmul, dur, dur_arr = 1, 0, duration.split(':')
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
             secmul *= 60
-        message.reply_audio(audio_file, caption=rep, thumb=thumb_name, parse_mode='md', title=title, duration=dur)
+        message.reply_audio(audio_file, caption=rep, thumb=thumb_name, parse_mode='html', title=title, duration=dur)
         m.delete()
     except Exception as e:
         m.edit(e)
