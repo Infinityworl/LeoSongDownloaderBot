@@ -13,8 +13,7 @@ YTDL_REGEX = (r"^((?:https?:)?\/\/)"
               r"(\/)([-a-zA-Z0-9()@:%_\+.~#?&//=]*)([\w\-]+)(\S+)?$")
 s2tw = OpenCC('s2tw.json').convert
 
-@LeoSongDownloaderBot.on_message(filters.private
-                   & filters.text
+@LeoSongDownloaderBot.on_message(filters.text
                    & ~filters.edited
                    & filters.regex(YTDL_REGEX))
 async def ytdl_with_button(_, message: Message):
