@@ -31,7 +31,7 @@ aiohttpsession = aiohttp.ClientSession()
 
 arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
-@app.on_message(filters.command('song'))
+@app.on_message(filters.command('song', f'song@{BOT_USERNAME}'))
 def song(client, message):
 
     user_id = message.from_user.id 
@@ -102,7 +102,7 @@ async def download_song(url):
 
 # Jiosaavn Music
 
-@app.on_message(filters.command("saavn") & ~filters.edited)
+@app.on_message(filters.command('saavn', f'saavn@{BOT_USERNAME}') & ~filters.edited)
 @capture_err
 async def jssong(_, message):
     global is_downloading
@@ -145,7 +145,7 @@ async def jssong(_, message):
     is_downloading = False
 
 
-@app.on_message(filters.command("deezer") & ~filters.edited)
+@app.on_message(filters.command('deezer') & ~filters.edited)
 async def deezsong(_, message):
     global is_downloading
     if len(message.command) < 2:
@@ -184,7 +184,7 @@ async def deezsong(_, message):
 # Song Lyrics
 
 
-@app.on_message(filters.command(["lyrics"]))
+@app.on_message(filters.command(['lyrics', f'lyrics@{BOT_USERNAME}']))
 async def lyrics_func(_, message):
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to get lyrics 👇\n\n<code>/lyrics song_name</code>".format(message.from_user.mention))
