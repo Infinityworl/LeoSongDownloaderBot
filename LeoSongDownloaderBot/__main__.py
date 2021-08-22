@@ -26,7 +26,7 @@ from LeoSongDownloaderBot import LOGGER
 
 LEOSONGDLIMG = "https://telegra.ph/file/7a3ee0b1803ed6e6fbc87.jpg"
 
-@app.on_message(filters.command("start"))
+@app.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     await AddUserToDatabase(client, message)
     FSub = await ForceSub(client, message)
@@ -37,6 +37,18 @@ async def start(client, message):
         caption=Translation.START_TEXT.format(message.from_user.mention),
         reply_markup=Translation.START_BUTTONS
     )
+    
+@app.on_message(filters.command("help"))
+async def help(client, message):
+    await AddUserToDatabase(client, message)
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
+    await message.reply_photo(
+        LEOSONGDLIMG,
+        caption=Translation.HELP_TEXT.format(message.from_user.mention),
+        reply_markup=Translation.HELP_BUTTONS
+    
     
 @app.on_message(filters.private & filters.command("broadcast") & filters.user(config.BOT_OWNER) & filters.reply)
 async def _broadcast(_, client: Message):
