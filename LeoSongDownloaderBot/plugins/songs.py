@@ -31,7 +31,7 @@ aiohttpsession = aiohttp.ClientSession()
 
 arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
-@app.on_message(filters.command('song', f'song@{BOT_USERNAME}'))
+@app.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 def song(client, message):
 
     user_id = message.from_user.id 
@@ -102,7 +102,7 @@ async def download_song(url):
 
 # Jiosaavn Music
 
-@app.on_message(filters.command('saavn', f'saavn@{BOT_USERNAME}') & ~filters.edited)
+@app.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
 @capture_err
 async def jssong(_, message):
     global is_downloading
