@@ -34,7 +34,7 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 @app.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 def song(client, message):
     
-    message.from_user.id 
+    user_id = message.from_user.id 
     user_name = message.from_user.first_name 
     rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
 
