@@ -61,12 +61,9 @@ def song(client, message):
 
     except Exception as e:
         m.edit(
-            "Nothing Found {} ☹️\n\nPlease check your spellings and try again😊".format(message.from_user.mention)
+            "Nothing Found {} ☹️\n\nPlease check, you using correct format or your spellings are correct and try again 😊\n\nFormat : /song song_name 💫".format(message.from_user.mention)
         )
         print(str(e))
-        return
-    if len(message.command) < 2:
-        m.edit("{},\n\nUse this format to download songs from YT 👇\n\n<code>/song song_name</code>".format(message.from_user.mention))
         return
     m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
     try:
@@ -74,7 +71,7 @@ def song(client, message):
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        rep = f'🎙**Title**: [{title[:35]}]({link})\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰\n\n**Requested By** : [{message.from_user.first_name}](tg://user?id={message.from_user.id})'
+        rep = f'🎙**Title**: [{title[:35]}]({link})\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰\n\n**Requested By** : [{message.from_user.first_name}](tg://user?id={message.from_user.id}) 😊'
         secmul, dur, dur_arr = 1, 0, duration.split(':')
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
