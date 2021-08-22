@@ -48,6 +48,7 @@ async def help(client, message):
         LEOSONGDLIMG,
         caption=Translation.HELP_TEXT.format(message.from_user.mention),
         reply_markup=Translation.HELP_BUTTONS
+    )
     
     
 @app.on_message(filters.private & filters.command("broadcast") & filters.user(config.BOT_OWNER) & filters.reply)
