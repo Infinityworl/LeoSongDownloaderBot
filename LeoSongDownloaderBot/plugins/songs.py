@@ -33,7 +33,9 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @app.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 def song(client, message):
-
+    if len(message.command) < 2:
+        await message.reply_text("{},\n\nUse this format to download songs from YT 👇\n\n<code>/song song_name</code>".format(message.from_user.mention))
+        return
     user_id = message.from_user.id 
     user_name = message.from_user.first_name 
     rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
