@@ -24,7 +24,9 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from LeoSongDownloaderBot import LeoSongDownloaderBot as app
 from LeoSongDownloaderBot import LOGGER
 
-LEOSONGDLIMG = "https://telegra.ph/file/7a3ee0b1803ed6e6fbc87.jpg"
+STARTIMG = "https://telegra.ph/file/1af5a6a6d1cd420c75261.jpg"
+HELP_IMG = "https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg"
+ABOUTIMG= "https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg"
 
 @app.on_message(filters.private & filters.command("start"))
 async def start(client, message):
@@ -33,23 +35,36 @@ async def start(client, message):
     if FSub == 400:
         return
     await message.reply_photo(
-        LEOSONGDLIMG,
+        STARTIMG,
         caption=Translation.START_TEXT.format(message.from_user.mention),
         reply_markup=Translation.START_BUTTONS
     )
     
-@app.on_message(filters.command("help"))
+@app.on_message(filters.command(["help", f"help@leosongdownloaderbot"]))
 async def help(client, message):
     await AddUserToDatabase(client, message)
     FSub = await ForceSub(client, message)
     if FSub == 400:
         return
     await message.reply_photo(
-        LEOSONGDLIMG,
-        caption=Translation.HELP_TEXT.format(message.from_user.mention),
+        HELP_IMG,
+        caption="",
         reply_markup=Translation.HELP_BUTTONS
     )
+ 
+@app.on_message(filters.command(["about", f"about@leosongdownloaderbot"]))
+async def help(client, message):
+    await AddUserToDatabase(client, message)
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
+    await message.reply_photo(
+        ABOUTIMG,
+        caption="",
+        reply_markup=Translation.ABOUT_BUTTONS
+    )
     
+
     
 @app.on_message(filters.private & filters.command("broadcast") & filters.user(config.BOT_OWNER) & filters.reply)
 async def _broadcast(_, client: Message):
