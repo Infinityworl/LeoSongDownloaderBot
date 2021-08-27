@@ -94,6 +94,6 @@ Your details are here 😊
         ],[
         InlineKeyboardButton('Telegram', url='https://t.me/naviya2')
         ],[
-        InlineKeyboardButton('Back 🔙', callback_data='Back 🔙')
+        InlineKeyboardButton('Back 🔙', callback_data='about')
         ]]
     ) 
