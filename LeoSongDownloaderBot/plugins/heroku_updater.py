@@ -3,15 +3,13 @@ import config
 import sys
 import heroku3
 from os import environ, execle
-from config import UPSTREAM_REPO
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-
-REPO_ = UPSTREAM_REPO
-BRANCH_ = U_BRANCH
+EPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
+BRANCH_ = U_BRANCH = "devs"
 
 @Client.on_message(filters.command("update") & filters.user(BOT_OWNER))
 async def updatebot(_, message: Message):
