@@ -10,6 +10,7 @@ from pyrogram.types import Message
 
 EPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
 BRANCH_ = U_BRANCH = "devs"
+BOT_OWNER = "1069002447"
 
 @Client.on_message(filters.command("update") & filters.user(BOT_OWNER))
 async def updatebot(_, message: Message):
