@@ -3,7 +3,7 @@ import time
 import asyncio
 import datetime
 import pytz
-from pyromod import *
+from pyromod import listen
 from LeoSongDownloaderBot.translation import Translation
 import config
 from LeoSongDownloaderBot.plugins.youtube import callback_query_ytdl_audio
