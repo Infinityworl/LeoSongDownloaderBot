@@ -86,16 +86,16 @@ async def show_status_count(_, client: Message):
         parse_mode="Markdown",
         quote=True
     )
-@app.on_message(filter.groups)
+@app.on_message()
 async def welcome(client:Client, message:Message):
     if message.text in ["Hi", "Hello", "Hey", "hi", "hello", "hey", "HI", "HELLO", "HEY"]:
-        await message.reply_animation(
-            animation ="https://telegra.ph/file/99a290331575e4c2d60d7.mp4",
-            caption = f"Hi {message.from_user.mention} 👋\n\nHow Are You ??"
-        )
-    if message.text in ["Songs Download", "songs download", "songs down", "songs dwn", "Songs Dwn", "SONGS DOWNLOAD"]:
         await message.reply_text(
-            text = f"Hey {message.from_user.mention}, Do You Want To Download Songs ?",
+            text = f"**Hi** {message.from_user.mention} 👋\n\n**How Are You ??**",
+            parse_mode="md"
+        )
+    if message.text in ["Songs Download", "songs download", "songs down", "songs dwn", "Songs Dwn", "SONGS DOWNLOAD", "Songs download"]:
+        await message.reply_text(
+            text = f"**Hey** {message.from_user.mention}, **Do You Want To Download Songs ?**",
             reply_markup = InlineKeyboardMarkup(
                 [[
                     InlineKeyboardButton("Yes 😊", callback_data="yes")
