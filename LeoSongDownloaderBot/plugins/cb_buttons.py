@@ -1,5 +1,6 @@
 import os
 import time
+import asyncio
 import datetime
 import pytz
 from pyromod import *
@@ -35,6 +36,10 @@ async def cb_data(Client, msg:CallbackQuery):
             chat_id=-1001523985078, 
             message_ids=msg.message.message_id
         )
+        await msg.answer(f"{msg.from_user.first_name}, Successfully Reported To Owner 💫", show_alert=False)
+        await asyncio.sleep(3)
+        await msg.message.delete()
+    
     elif msg.data == "sendtochannel":
         await msg.message.edit_reply_markup(
             reply_markup=InlineKeyboardMarkup(
@@ -128,6 +133,16 @@ async def cb_data(Client, msg:CallbackQuery):
         dtsl = datetime.datetime.now(pytz.timezone("Asia/Colombo")).strftime("%I:%M %p %d/%m/%y")
         await msg.answer(f"Hi {msg.from_user.first_name} 👋\n\nTotal Users : {user_count} 💫\n\nLast Update :\n {dt} (UTC 🌎)\n {dtsl} (Sri Lanka 🇱🇰)\n\nShare And Support Us 😊", show_alert=True)
     
+    elif msg.data == "no":
+        await msg.message.edit_text(text = f"{msg.from_user.mention},\n\nSorry For Disturbing You ☹️")
+        await asyncio.sleep(2)
+        await msg.message.delete()
+
+    elif msg.data == "yes":
+        await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg", caption="This Help Menu Will Be Usefull To You 😊\n\nUse The Below Buttons To Know How To Download Songs With Me 😊"),
+            reply_markup=Translation.HELP_BUTTONS
+        )
+        
     elif msg.data == "about":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg", caption=""),
             reply_markup=Translation.ABOUT_BUTTONS 

@@ -39,6 +39,21 @@
         },
         "SESSION_NAME": {
             "description": "Any Bot Session Name."
+        },
+        "HEROKU_APP_NAME": {
+          "description": "Your Heroku App Name!",
+          "required": true,
+          "value": ""
+        },
+        "HEROKU_API_KEY": {
+          "description": "Your Heroku Api Key!",
+          "required": true,
+          "value": ""
+        },
+        "UPSTREAM_REPO": {
+          "description": "Github Repo Url !",
+          "required": false,
+          "value": "https://github.com/Naviya2/LeoSongDownloaderBot"
         }
     },
     "addons": [],

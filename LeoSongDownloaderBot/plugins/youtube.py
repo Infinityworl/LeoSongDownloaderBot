@@ -21,7 +21,7 @@ s2tw = OpenCC('s2tw.json').convert
 async def ytdl_with_button(client: Client, message: Message):
     await client.send_chat_action(chat_id=message.chat.id, action="typing")
     await message.reply_text(
-        "**Please click the below button to download your song 😊",
+        "**Please click the below button to download your song 😊**",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -81,7 +81,7 @@ async def send_audio(message: Message, info_dict, audio_file):
     # info (s2tw)
     webpage_url = info_dict['webpage_url']
     title = s2tw(info_dict['title'])
-    caption = f"<a href=\"{webpage_url}\">{title}</a>"
+    caption = f"Downloaded By : @leosongdownloaderbot 🇱🇰"
     duration = int(float(info_dict['duration']))
     performer = s2tw(info_dict['uploader'])
     start_time = time.time()
@@ -102,14 +102,14 @@ async def send_audio(message: Message, info_dict, audio_file):
                     parse_mode='HTML',
                     thumb=thumbnail_file,
                     reply_markup=InlineKeyboardMarkup(
-                    [[
-                        InlineKeyboardButton("Requested By ❓",url=f"https://t.me/{message.from_user.username}")
-                    ],[
-                        InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
-                    ],[
-                        InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
-                    ]]
-                )
+                        [[
+                            InlineKeyboardButton("Requested By ❓", url=f"https://t.me/{message.from_user.username}")
+                        ],[
+                            InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
+                        ],[
+                            InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                        ]]
+                    )
             )
         else:
             await message.reply_audio(
@@ -127,14 +127,14 @@ async def send_audio(message: Message, info_dict, audio_file):
                     parse_mode='HTML',
                     thumb=thumbnail_file,
                     reply_markup=InlineKeyboardMarkup(
-                    [[
-                        InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
-                    ],[
-                        InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
-                    ],[
-                        InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
-                    ]]
-                )
+                        [[
+                            InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
+                        ],[
+                            InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
+                        ],[
+                            InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                        ]]
+                    )
             )
     except Exception as e:
         await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))

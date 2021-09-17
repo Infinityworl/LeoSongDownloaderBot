@@ -21,5 +21,7 @@ ffmpeg-python
 ffmpeg
 python-arq
 future
+heroku3
+gitpython
 py-tgcalls
 python-dotenv
