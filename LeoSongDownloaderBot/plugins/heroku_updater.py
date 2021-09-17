@@ -3,6 +3,7 @@ import config
 import sys
 import heroku3
 from os import environ, execle
+from config import UPSTREAM_REPO
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
