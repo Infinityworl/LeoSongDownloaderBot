@@ -2,23 +2,16 @@ import os
 import config
 import sys
 import heroku3
+from functools import wraps
 from os import environ, execle
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-<<<<<<< HEAD
-
 REPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
 BRANCH_ = U_BRANCH = "devs"
 BOT_OWNER = 1069002447
-
-=======
-REPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
-BRANCH_ = U_BRANCH = "devs"
-BOT_OWNER = "1069002447"
->>>>>>> 871ec61781e3f57e52d84ef03acc52a94c3e73d1
 
 @Client.on_message(filters.command("update") & filters.user(BOT_OWNER))
 async def updatebot(_, message: Message):
@@ -94,3 +87,37 @@ def fetch_heroku_git_url(api_key, app_name):
     if not heroku_app:
         return None
     return heroku_app.git_url.replace("https://", "https://api:" + api_key + "@")
+
+heroku_client = None
+if HEROKU_API_KEY:
+    heroku_client = heroku3.from_key(HEROKU_API_KEY)
+
+def _check_heroku(func):
+    @wraps(func)
+    async def heroku_cli(client, message):
+        heroku_app = None
+        if not heroku_client:
+            await message.reply_text(
+                "`Please Add Heroku API Key To Use This Feature!`"
+            )
+        elif not HEROKU_APP_NAME:
+            await edit_or_reply(
+                message, "`Please Add Heroku APP Name To Use This Feature!`"
+            )
+        if HEROKU_APP_NAME and heroku_client:
+            try:
+                heroku_app = heroku_client.app(HEROKU_APP_NAME)
+            except:
+                await message.reply_text(
+                    message, "`Heroku Api Key And App Name Doesn't Match! Check it again`"
+                )
+            if heroku_app:
+                await func(client, message, heroku_app)
+
+    return heroku_cli
+
+@Client.on_message(filters.command("restart") & filters.user(BOT_OWNER))
+@_check_heroku
+async def restart(client: Client, message: Message, hap):
+    msg = await message.reply_text("`Restarting Now! Please wait...`")
+    hap.restart()
