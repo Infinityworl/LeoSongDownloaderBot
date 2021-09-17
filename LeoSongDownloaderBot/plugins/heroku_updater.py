@@ -1,4 +1,5 @@
 import os
+import config
 import sys
 import heroku3
 from os import environ, execle
@@ -6,7 +7,6 @@ from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from config import BOT_USERNAME, BOT_OWNER, UPSTREAM_REPO, U_BRANCH, HEROKU_URL
 
 
 REPO_ = UPSTREAM_REPO
