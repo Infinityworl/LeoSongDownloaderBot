@@ -14,6 +14,26 @@ BRANCH_ = U_BRANCH = "devs"
 BOT_OWNER = 1069002447
 HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
 HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY")
+
+def fetch_heroku_git_url(api_key, app_name):
+    if not api_key:
+        return None
+    if not app_name:
+        return None
+    heroku = heroku3.from_key(api_key)
+    try:
+        heroku_applications = heroku.apps()
+    except:
+        return None
+    heroku_app = None
+    for app in heroku_applications:
+        if app.name == app_name:
+            heroku_app = app
+            break
+    if not heroku_app:
+        return None
+    return heroku_app.git_url.replace("https://", "https://api:" + api_key + "@")
+
 HEROKU_URL = fetch_heroku_git_url(HEROKU_API_KEY, HEROKU_APP_NAME)
 
 @Client.on_message(filters.command("update") & filters.user(BOT_OWNER))
@@ -72,24 +92,6 @@ async def updatebot(_, message: Message):
             await msg.edit(f"**Updater Error** \nTraceBack : `{error}`")
             return repo.__del__()
             
-def fetch_heroku_git_url(api_key, app_name):
-    if not api_key:
-        return None
-    if not app_name:
-        return None
-    heroku = heroku3.from_key(api_key)
-    try:
-        heroku_applications = heroku.apps()
-    except:
-        return None
-    heroku_app = None
-    for app in heroku_applications:
-        if app.name == app_name:
-            heroku_app = app
-            break
-    if not heroku_app:
-        return None
-    return heroku_app.git_url.replace("https://", "https://api:" + api_key + "@")
 
 heroku_client = None
 if HEROKU_API_KEY:
