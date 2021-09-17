@@ -4,7 +4,6 @@ import asyncio
 from urllib.parse import urlparse
 from pyrogram import Client, client, filters
 from helper.display_progress import humanbytes, progress_for_pyrogram
-from LeoSongDownloaderBot.plugins.cb_buttons import cb_data
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from youtube_dl import YoutubeDL
 from opencc import OpenCC
