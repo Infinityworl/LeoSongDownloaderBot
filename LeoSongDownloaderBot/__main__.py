@@ -86,7 +86,7 @@ async def show_status_count(_, client: Message):
         parse_mode="Markdown",
         quote=True
     )
-@app.on_message(filter.groups)
+@app.on_message()
 async def welcome(client:Client, message:Message):
     if message.text in ["Hi", "Hello", "Hey", "hi", "hello", "hey", "HI", "HELLO", "HEY"]:
         await message.reply_animation(
