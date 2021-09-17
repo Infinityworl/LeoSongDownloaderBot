@@ -5,7 +5,6 @@ import heroku3
 from functools import wraps
 from os import environ, execle
 from git import Repo
-from LeoSongDownloaderBot.plugins.heroku_updater import fetch_heroku_git_url
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
 from pyrogram.types import Message
