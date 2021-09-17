@@ -15,12 +15,12 @@ touch on " Help 🆘 "  Button 😊
 """    
 
     ABOUT_TEXT = """
-🔰 **Bot :** [Leo Song Downloader Bot 🇱🇰](https://t.me/leosongdownloaderbot)
+🔰 **Bot :** [Leo Song Downloader Bot](https://t.me/leosongdownloaderbot)
 🔰 **Developer :** [Naviya 🇱🇰](https://telegram.me/naviya2)
-🔰 **Updates Channel :** [Leo Updates 🇱🇰](https://telegram.me/new_ehi)
-🔰 **Support Group :** [Leo Support 🇱🇰](https://telegram.me/leosupportx)
+🔰 **Updates Channel :** [Leo Updates](https://telegram.me/new_ehi)
+🔰 **Support Group :** [Leo Support](https://telegram.me/leosupportx)
 🔰 **Language :** [Python3](https://python.org)
-🔰 **Library :** [Pyrogram v1.2.0](https://pyrogram.org)
+🔰 **Library :** [Pyrogram](https://pyrogram.org)
 🔰 **Server :** [VPS](https://www.digitalocean.com)
 """
 
@@ -83,6 +83,8 @@ Your details are here 😊
     )
     ABOUT_BOT_BUTTONS = InlineKeyboardMarkup(
         [[
+        InlineKeyboardButton("Bot's statistics 💫", callback_data="bot_users_count")
+        ],[
         InlineKeyboardButton('Back 🔙', callback_data='about')
         ]]
     )

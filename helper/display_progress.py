@@ -1,7 +1,15 @@
+# (c) Shrimadhav U K
+
 import math
 import time
-import config
 
+PROGRESS = """
+Percentage : {0}%
+Done: {1}
+Total: {2}
+Speed: {3}/s
+ETA: {4}
+"""
 
 async def progress_for_pyrogram(current, total, ud_type, message, start):
     now = time.time()
@@ -21,7 +29,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             ''.join(["○" for i in range(20 - math.floor(percentage / 5))])
         )
 
-        tmp = progress + config.PROGRESS.format(
+        tmp = progress + PROGRESS.format(
             round(percentage, 2),
             humanbytes(current),
             humanbytes(total),

@@ -1,13 +1,17 @@
 import os
+import time
+import datetime
+import pytz
+from pyromod import *
 from LeoSongDownloaderBot.translation import Translation
 import config
 from LeoSongDownloaderBot.plugins.youtube import callback_query_ytdl_audio
+from helper.database.access_db import db
 from pyrogram import Client
+from asyncio import TimeoutError
 from pyrogram.errors import UserNotParticipant
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import LeoSongDownloaderBot as app
-
-
 
 @app.on_callback_query()
 async def cb_data(Client, msg:CallbackQuery):
@@ -15,24 +19,115 @@ async def cb_data(Client, msg:CallbackQuery):
         await msg.message.edit_text(
             text=Translation.START_TEXT.format(msg.from_user.mention),
             reply_markup=Translation.START_BUTTONS,
-            disable_web_page_preview=True,
+            disable_web_page_preview=True
         )
+    elif msg.data == "sendtoib":
+        await Client.forward_messages(
+            from_chat_id=msg.message.chat.id,
+            chat_id=msg.from_user.id, 
+            message_ids=msg.message.message_id
+        )
+        await msg.answer(f"{msg.from_user.first_name} ,Successfully Sent To Your PM 💫", show_alert=False)
+    
+    elif msg.data == "report_to_owner":
+        await Client.forward_messages(
+            from_chat_id=msg.message.chat.id,
+            chat_id=-1001523985078, 
+            message_ids=msg.message.message_id
+        )
+    elif msg.data == "sendtochannel":
+        await msg.message.edit_reply_markup(
+            reply_markup=InlineKeyboardMarkup(
+                [[
+                    InlineKeyboardButton("Note ❗️ ", callback_data="ingrpchnl")
+                ],[
+                    InlineKeyboardButton("Group 💬", callback_data="group")
+                ],[
+                    InlineKeyboardButton("Channel 💫", callback_data="channel")
+                ]]
+            )
+        )
+
+    elif msg.data == "group":
+        await Client.send_message(
+            text="Please Enter Your Group ID :",
+            chat_id=msg.message.chat.id,
+            reply_to_message_id=msg.message.message_id,
+            reply_markup=ForceReply()
+        )
+        try:
+            ask_ : Message = await Client.listen(msg.message.chat.id, timeout=300)
+            if ask_.text.startswith("-100"):
+                pass
+            else:
+                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Group ID Is Invalid !!", show_alert=False)
+            if len(ask_.text) >= 13:
+                pass
+            else:
+                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Group ID Is Invalid !!", show_alert=False)
+        except TimeoutError:
+            await msg.answer(f"Sorry {msg.from_user.first_name}, Sorry Timed Out !!", show_alert=False)
+        
+        await Client.forward_messages(
+            from_chat_id=msg.message.chat.id,
+            chat_id=ask_.text, 
+            message_ids=msg.message.message_id
+        )
+        await msg.answer(f"{msg.from_user.first_name}, Successfully Sent To Your Group😊", show_alert=False)
+        
+
+    elif msg.data == "ingrpchnl":
+        await msg.answer(f"{msg.from_user.first_name},\nBot Should Be Promoted As ADMIN In The Group / Channel To Forward Messages 😊", show_alert=True)
+    
+    elif msg.data == "channel":
+        await Client.send_message(
+            text="Please Enter Your Channel ID :",
+            chat_id=msg.message.chat.id,
+            reply_to_message_id=msg.message.message_id,
+            reply_markup=ForceReply()
+        )
+        try:
+            ask_ : Message = await Client.listen(msg.message.chat.id, timeout=300)
+            if ask_.text.startswith("-100"):
+                pass
+            else:
+                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Channel ID Is Invalid !!", show_alert=False)
+            if len(ask_.text) >= 13:
+                pass
+            else:
+                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Channel ID Is Invalid !!", show_alert=False)
+        except TimeoutError:
+            await msg.answer(f"Sorry {msg.from_user.first_name}, Timed Out !!", show_alert=False)
+        
+        await Client.forward_messages(
+            from_chat_id=msg.message.chat.id,
+            chat_id=ask_.text, 
+            message_ids=msg.message.message_id
+        )
+        await msg.answer(f"{msg.from_user.first_name}, Successfully Sent To Your Channel 😊", show_alert=False)
+
     elif msg.data == "help":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg", caption=""),
-            reply_markup=Translation.HELP_BUTTONS,
+            reply_markup=Translation.HELP_BUTTONS
         )
     elif msg.data == "help_for_yt":
-        await msg.answer("Please use the below format to download songs from YouTube 😊\n\nFormat : /song song_name 💫", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\nPlease use the below format to download songs from YouTube 😊\n\nFormat : /song song_name 💫", show_alert=True)
     
     elif msg.data == "help_for_saavn":
-        await msg.answer("Please use the below format to download song from Saavn 😊\n\nFormat : /saavn song_name 💫", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\nPlease use the below format to download song from Saavn 😊\n\nFormat : /saavn song_name 💫", show_alert=True)
     
     elif msg.data == "help_for_lyrics_down":
-        await msg.answer("please use the below format to download lyrics 😊\n\nFormat : /lyrics song_name 💫", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\nplease use the below format to download lyrics 😊\n\nFormat : /lyrics song_name 💫", show_alert=True)
 
-    elif msg.data =="help_for_url_dl":
-        await msg.answer("Simply copy an url from YT and Paste it on this bot 😊", show_alert=True)
-
+    elif msg.data == "help_for_url_dl":
+        await msg.answer(f"{msg.from_user.first_name},\n Simply copy an url from YT and Paste it on this bot 😊" , show_alert=True)
+    
+    elif msg.data == "bot_users_count":
+        user_count = await db.total_users_count()
+        dt = datetime.datetime.now(pytz.timezone("UTC")).strftime("%I:%M %p %d/%m/%y") 
+        dtsl = datetime.datetime.now(pytz.timezone("Asia/Colombo")).strftime("%I:%M %p %d/%m/%y")
+        await msg.answer(f"Hi {msg.from_user.first_name} 👋\n\nTotal Users : {user_count} 💫\n\nLast Update :\n {dt} (UTC 🌎)\n {dtsl} (Sri Lanka 🇱🇰)\n\nShare And Support Us 😊", show_alert=True)
+    
     elif msg.data == "about":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg", caption=""),
             reply_markup=Translation.ABOUT_BUTTONS 

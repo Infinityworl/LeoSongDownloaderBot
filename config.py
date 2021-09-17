@@ -12,3 +12,4 @@ BROADCAST_AS_COPY = bool(os.environ.get("BROADCAST_AS_COPY", False))
 MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb+srv://navindu:navi18572@cluster0.9yrur.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1001511224747))
 ARQ_API_KEY = os.getenv("ARQ_API_KEY", "RZOGUI-VCYTJC-FBTHZH-KWCYGT-ARQ")
+

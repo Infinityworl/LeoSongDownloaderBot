@@ -1,7 +1,10 @@
 import os
+import time
 import asyncio
 from urllib.parse import urlparse
-from pyrogram import Client, filters
+from pyrogram import Client, client, filters
+from helper.display_progress import humanbytes, progress_for_pyrogram
+from LeoSongDownloaderBot.plugins.cb_buttons import cb_data
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from youtube_dl import YoutubeDL
 from opencc import OpenCC
@@ -16,7 +19,8 @@ s2tw = OpenCC('s2tw.json').convert
 @LeoSongDownloaderBot.on_message(filters.text
                    & ~filters.edited
                    & filters.regex(YTDL_REGEX))
-async def ytdl_with_button(_, message: Message):
+async def ytdl_with_button(client: Client, message: Message):
+    await client.send_chat_action(chat_id=message.chat.id, action="typing")
     await message.reply_text(
         "**Please click the below button to download your song 😊",
         reply_markup=InlineKeyboardMarkup(
@@ -54,11 +58,12 @@ async def callback_query_ytdl_audio(_, callback_query):
                                                   audio_file))
             while not task.done():
                 await asyncio.sleep(3)
-                await message.reply_chat_action("upload_document")
+                await message.reply_chat_action("upload_audio")
             await message.reply_chat_action("cancel")
             await message.delete()
     except Exception as e:
-        await message.reply_text(e)
+        await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        print(e)
     await callback_query.message.reply_to_message.delete()
     await callback_query.message.delete()
 
@@ -80,9 +85,61 @@ async def send_audio(message: Message, info_dict, audio_file):
     caption = f"<a href=\"{webpage_url}\">{title}</a>"
     duration = int(float(info_dict['duration']))
     performer = s2tw(info_dict['uploader'])
-    await message.reply_audio(audio_file, caption=caption, duration=duration,
-                              performer=performer, title=title,
-                              parse_mode='HTML', thumb=thumbnail_file)
+    start_time = time.time()
+    try:
+        if message.chat.id == message.from_user.id:
+            await message.reply_audio(
+                    audio_file,
+                    caption=caption,
+                    duration=duration,
+                    performer=performer,
+                    title=title,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                    "Downloading Song 🎵",
+                    message,
+                    start_time
+                    ),  
+                    parse_mode='HTML',
+                    thumb=thumbnail_file,
+                    reply_markup=InlineKeyboardMarkup(
+                    [[
+                        InlineKeyboardButton("Requested By ❓",url=f"https://t.me/{message.from_user.username}")
+                    ],[
+                        InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
+                    ],[
+                        InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                    ]]
+                )
+            )
+        else:
+            await message.reply_audio(
+                    audio_file,
+                    caption=caption,
+                    duration=duration,
+                    performer=performer,
+                    title=title,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                    "Downloading Song 🎵",
+                    message,
+                    start_time
+                    ),  
+                    parse_mode='HTML',
+                    thumb=thumbnail_file,
+                    reply_markup=InlineKeyboardMarkup(
+                    [[
+                        InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
+                    ],[
+                        InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
+                    ],[
+                        InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                    ]]
+                )
+            )
+    except Exception as e:
+        await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        print (e)
     os.remove(audio_file)
     os.remove(thumbnail_file)
 
