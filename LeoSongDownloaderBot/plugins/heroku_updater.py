@@ -8,11 +8,17 @@ from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+<<<<<<< HEAD
 
 REPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
 BRANCH_ = U_BRANCH = "devs"
 BOT_OWNER = 1069002447
 
+=======
+REPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
+BRANCH_ = U_BRANCH = "devs"
+BOT_OWNER = "1069002447"
+>>>>>>> 871ec61781e3f57e52d84ef03acc52a94c3e73d1
 
 @Client.on_message(filters.command("update") & filters.user(BOT_OWNER))
 async def updatebot(_, message: Message):
