@@ -5,6 +5,7 @@ import heroku3
 from functools import wraps
 from os import environ, execle
 from git import Repo
+from LeoSongDownloaderBot.plugins.heroku_updater import fetch_heroku_git_url
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -12,6 +13,9 @@ from pyrogram.types import Message
 REPO_ = UPSTREAM_REPO = "https://github.com/Naviya2/LeoSongDownloaderBot"
 BRANCH_ = U_BRANCH = "devs"
 BOT_OWNER = 1069002447
+HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
+HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY")
+HEROKU_URL = fetch_heroku_git_url(HEROKU_API_KEY, HEROKU_APP_NAME)
 
 @Client.on_message(filters.command("update") & filters.user(BOT_OWNER))
 async def updatebot(_, message: Message):

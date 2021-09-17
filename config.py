@@ -1,7 +1,6 @@
 # Leo Projects <https://t.me/leosupportx>
 
 import os
-from LeoSongDownloaderBot.plugins.heroku_updater import fetch_heroku_git_url
 
 API_ID = int(os.getenv("API_ID", 2158704))
 API_HASH = os.getenv("API_HASH", "227f3bd8c1d7fc3ecfa243e1a85dd2fa")
@@ -15,9 +14,5 @@ MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb+srv://navindu:navi18572@clu
 LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1001511224747))
 ARQ_API_KEY = os.getenv("ARQ_API_KEY", "RZOGUI-VCYTJC-FBTHZH-KWCYGT-ARQ")
 
-# Updator Configs
-HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
-HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY")
-HEROKU_URL = fetch_heroku_git_url(HEROKU_API_KEY, HEROKU_APP_NAME)
 
 
