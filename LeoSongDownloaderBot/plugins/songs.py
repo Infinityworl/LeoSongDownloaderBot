@@ -129,7 +129,7 @@ def song(client, message):
 
         m.delete()
     except Exception as e:
-        m.edit_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        m.edit(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print(e)
     try:
         os.remove(audio_file)
@@ -223,7 +223,7 @@ async def jssong(_, message):
         await m.delete()
     except Exception as e:
         is_downloading = False
-        await m.edit_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        await m.edit(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         return
     is_downloading = False
 
