@@ -66,7 +66,7 @@ def song(client, message):
         )
         print(str(e))
         return
-    m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+    m.edit_text(text="**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**", parse_mode="md")
     client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
