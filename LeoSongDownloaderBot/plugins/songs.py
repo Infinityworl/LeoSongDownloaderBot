@@ -42,7 +42,7 @@ def song(client, message):
         query += ' ' + str(i)
     print(query)
     client.send_chat_action(chat_id=message.chat.id, action="typing")
-    m = message.reply_text('**Now I am Searching Your Song 🔎\n\nPlease Wait 😊**')
+    m = await message.reply_text('**Now I am Searching Your Song 🔎\n\nPlease Wait 😊**')
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -61,12 +61,12 @@ def song(client, message):
         views = results[0]["views"]
 
     except Exception as e:
-        m.edit_text(
+        await m.edit(
             "Nothing Found {} ☹️\n\nPlease check, you using correct format or your spellings are correct and try again 😊\n\nFormat : /song song_name 💫".format(message.from_user.mention)
         )
         print(str(e))
         return
-    m.edit_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+    await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
     client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -127,9 +127,9 @@ def song(client, message):
                 )
             )
 
-        m.delete()
+        await m.delete()
     except Exception as e:
-        m.edit_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        await m.edit_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print(e)
     try:
         os.remove(audio_file)
