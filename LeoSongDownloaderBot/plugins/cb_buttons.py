@@ -76,17 +76,18 @@ async def cb_data(Client, msg:CallbackQuery):
         
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
-            chat_id=ask_.text, 
+            chat_id=int(ask_.text), 
             message_ids=msg.message.message_id
         )
-        await msg.answer(f"{msg.from_user.first_name}, Successfully Sent To Your Group 😊", show_alert=False)
-        
-
+        await msg.message.reply_text(
+            text=f"**Successfully Forwarded To** {ask_.text} 😊",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Close ❌", callback_data="close")]])
+        )
     elif msg.data == "ingrpchnl":
         await msg.answer(f"{msg.from_user.first_name},\nLeo Song Downloader Bot Should Be Promoted As ADMIN In The Group / Channel To Forward Messages 😊", show_alert=True)
     
     elif msg.data == "channel":
-        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Group 😊", show_alert=True)
+        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Channel 😊", show_alert=True)
         await Client.send_message(
             text="Please Enter Your Channel ID : ",
             chat_id=msg.message.chat.id,
@@ -108,11 +109,13 @@ async def cb_data(Client, msg:CallbackQuery):
         
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
-            chat_id=ask_.text, 
+            chat_id=int(ask_.text), 
             message_ids=msg.message.message_id
         )
-        await msg.answer(f"{msg.from_user.first_name}, Successfully Sent To Your Channel 😊", show_alert=False)
-
+        await msg.message.reply_text(
+            text=f"**Successfully Forwarded To** {ask_.text} 😊",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Close ❌", callback_data="close")]])
+        )
     elif msg.data == "help":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg", caption=""),
             reply_markup=Translation.HELP_BUTTONS

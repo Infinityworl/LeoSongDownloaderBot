@@ -26,7 +26,7 @@ async def ytdl_with_button(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "Download 🎵",
+                        "Download Now 🎵",
                         callback_data="ytdl_audio"
                     )
                 ]
