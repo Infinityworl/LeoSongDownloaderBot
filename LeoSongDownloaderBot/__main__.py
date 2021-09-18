@@ -8,6 +8,7 @@ import shutil
 import string
 import asyncio
 import config
+from pyromod import listen
 from asyncio import TimeoutError
 from LeoSongDownloaderBot.translation import Translation
 from helper.database.access_db import db
@@ -19,6 +20,7 @@ from helper.forcesub import ForceSub
 from pyrogram.errors import FloodWait, UserNotParticipant
 from pyrogram.types.bots_and_keyboards import reply_keyboard_markup
 from LeoSongDownloaderBot.plugins import *
+from LeoSongDownloaderBot.plugins import heroku_updater
 from pyrogram import idle, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from LeoSongDownloaderBot import LeoSongDownloaderBot as app

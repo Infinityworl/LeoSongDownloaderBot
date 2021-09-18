@@ -3,6 +3,7 @@ import time
 import asyncio
 import datetime
 import pytz
+from pyromod import listen
 from LeoSongDownloaderBot.translation import Translation
 import config
 from LeoSongDownloaderBot.plugins.youtube import callback_query_ytdl_audio
@@ -53,8 +54,9 @@ async def cb_data(Client, msg:CallbackQuery):
         )
 
     elif msg.data == "group":
+        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Group 😊", show_alert=True)
         await Client.send_message(
-            text="Please Enter Your Group ID :",
+            text="Please Enter Your Group ID : ",
             chat_id=msg.message.chat.id,
             reply_to_message_id=msg.message.message_id,
             reply_markup=ForceReply()
@@ -77,15 +79,16 @@ async def cb_data(Client, msg:CallbackQuery):
             chat_id=ask_.text, 
             message_ids=msg.message.message_id
         )
-        await msg.answer(f"{msg.from_user.first_name}, Successfully Sent To Your Group😊", show_alert=False)
+        await msg.answer(f"{msg.from_user.first_name}, Successfully Sent To Your Group 😊", show_alert=False)
         
 
     elif msg.data == "ingrpchnl":
-        await msg.answer(f"{msg.from_user.first_name},\nBot Should Be Promoted As ADMIN In The Group / Channel To Forward Messages 😊", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\nLeo Song Downloader Bot Should Be Promoted As ADMIN In The Group / Channel To Forward Messages 😊", show_alert=True)
     
     elif msg.data == "channel":
+        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Group 😊", show_alert=True)
         await Client.send_message(
-            text="Please Enter Your Channel ID :",
+            text="Please Enter Your Channel ID : ",
             chat_id=msg.message.chat.id,
             reply_to_message_id=msg.message.message_id,
             reply_markup=ForceReply()

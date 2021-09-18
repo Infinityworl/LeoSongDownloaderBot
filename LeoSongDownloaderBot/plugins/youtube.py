@@ -46,49 +46,34 @@ async def callback_query_ytdl_audio(_, callback_query):
         }
         with YoutubeDL(ydl_opts) as ydl:
             message = callback_query.message
-            await message.reply_chat_action("typing")
             info_dict = ydl.extract_info(url, download=False)
             # download
+            await message.reply_chat_action(action="upload_audio")
             await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
             ydl.process_info(info_dict)
             # upload
             audio_file = ydl.prepare_filename(info_dict)
-            task = asyncio.create_task(send_audio(message, info_dict,
-                                                  audio_file))
-            while not task.done():
-                await asyncio.sleep(3)
-                await message.reply_chat_action("upload_audio")
-            await message.reply_chat_action("cancel")
-            await message.delete()
-    except Exception as e:
-        await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
-        print(e)
-    await callback_query.message.reply_to_message.delete()
-    await callback_query.message.delete()
-
-
-async def send_audio(message: Message, info_dict, audio_file):
-    basename = audio_file.rsplit(".", 1)[-2]
-    # .webm -> .weba
-    if info_dict['ext'] == 'webm':
-        audio_file_weba = basename + ".weba"
-        os.rename(audio_file, audio_file_weba)
-        audio_file = audio_file_weba
-    # thumbnail
-    thumbnail_url = info_dict['thumbnail']
-    thumbnail_file = basename + "." + \
-        get_file_extension_from_url(thumbnail_url)
-    # info (s2tw)
-    webpage_url = info_dict['webpage_url']
-    title = s2tw(info_dict['title'])
-    caption = f"Downloaded By : @leosongdownloaderbot 🇱🇰"
-    duration = int(float(info_dict['duration']))
-    performer = s2tw(info_dict['uploader'])
-    start_time = time.time()
-    try:
-        if message.chat.id == message.from_user.id:
-            await message.reply_audio(
-                    audio_file,
+            basename = audio_file.rsplit(".", 1)[-2]
+             # .webm -> .weba
+            if info_dict['ext'] == 'webm':
+                audio_file_weba = basename + ".weba"
+                os.rename(audio_file, audio_file_weba)
+                audio_file = audio_file_weba
+            # thumbnail
+                thumbnail_url = info_dict['thumbnail']
+                thumbnail_file = basename + "." + \
+                get_file_extension_from_url(thumbnail_url)
+            # info (s2tw)
+            webpage_url = info_dict['webpage_url']
+            title = s2tw(info_dict['title'])
+            duration = int(float(info_dict['duration']))
+            performer = s2tw(info_dict['uploader'])
+            caption = f"🎙**Title**: `{title[:35]}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
+            start_time = time.time()
+    
+            if callback_query.message.chat.id == callback_query.from_user.id:
+                await message.reply_audio(
+                    audio=audio_file,
                     caption=caption,
                     duration=duration,
                     performer=performer,
@@ -99,7 +84,7 @@ async def send_audio(message: Message, info_dict, audio_file):
                     message,
                     start_time
                     ),  
-                    parse_mode='HTML',
+                    parse_mode='md',
                     thumb=thumbnail_file,
                     reply_markup=InlineKeyboardMarkup(
                         [[
@@ -110,10 +95,10 @@ async def send_audio(message: Message, info_dict, audio_file):
                             InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
                         ]]
                     )
-            )
-        else:
-            await message.reply_audio(
-                    audio_file,
+                )
+            else:
+                await message.reply_audio(
+                    audio=audio_file,
                     caption=caption,
                     duration=duration,
                     performer=performer,
@@ -135,7 +120,8 @@ async def send_audio(message: Message, info_dict, audio_file):
                             InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
                         ]]
                     )
-            )
+                )
+            await callback_query.message.delete()
     except Exception as e:
         await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
