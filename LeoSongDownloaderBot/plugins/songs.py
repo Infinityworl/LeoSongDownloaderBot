@@ -31,7 +31,7 @@ aiohttpsession = aiohttp.ClientSession()
 arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @app.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
-def song(client, message):
+async def song(client, message):
     
     user_id = message.from_user.id 
     user_name = message.from_user.first_name
@@ -41,7 +41,7 @@ def song(client, message):
     for i in message.command[1:]:
         query += ' ' + str(i)
     print(query)
-    client.send_chat_action(chat_id=message.chat.id, action="typing")
+    await client.send_chat_action(chat_id=message.chat.id, action="typing")
     m = await message.reply_text('**Now I am Searching Your Song 🔎\n\nPlease Wait 😊**')
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
@@ -67,7 +67,7 @@ def song(client, message):
         print(str(e))
         return
     await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
-    client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
+    await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
@@ -80,7 +80,7 @@ def song(client, message):
             dur += (int(dur_arr[i]) * secmul)
             secmul *= 60
         if message.chat.id == message.from_user.id:
-            message.reply_audio(
+            await message.reply_audio(
                 audio=audio_file, 
                 caption=rep,
                 progress=progress_for_pyrogram,
@@ -104,7 +104,7 @@ def song(client, message):
                 )
             )
         else:
-            message.reply_audio(
+            await message.reply_audio(
                 audio=audio_file, 
                 caption=rep,
                 progress=progress_for_pyrogram,
