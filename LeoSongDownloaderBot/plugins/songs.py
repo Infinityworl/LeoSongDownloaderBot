@@ -32,11 +32,6 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @app.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client, message):
-    
-    user_id = message.from_user.id 
-    user_name = message.from_user.first_name
-    rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
-
     query = ''
     for i in message.command[1:]:
         query += ' ' + str(i)
@@ -60,11 +55,11 @@ async def song(client, message):
         url_suffix = results[0]["url_suffix"]
         views = results[0]["views"]
 
-    except Exception as e:
+    except Exception as err:
         await m.edit(
             "Nothing Found {} ☹️\n\nPlease check, you using correct format or your spellings are correct and try again 😊\n\nFormat : /song song_name 💫".format(message.from_user.mention)
         )
-        print(str(e))
+        print(str(err))
         return
     await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
     await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")

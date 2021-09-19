@@ -49,7 +49,6 @@ async def callback_query_ytdl_audio(_, callback_query):
             info_dict = ydl.extract_info(url, download=False)
             # download
             await message.reply_chat_action(action="upload_audio")
-            await asyncio.sleep(2)
             await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
             ydl.process_info(info_dict)
             # upload
@@ -71,7 +70,7 @@ async def callback_query_ytdl_audio(_, callback_query):
             performer = s2tw(info_dict['uploader'])
             caption = f"🎙**Title**: `{title[:35]}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
             start_time = time.time()
-    
+            await asyncio.sleep(3)
             if callback_query.message.chat.id == callback_query.from_user.id:
                 await message.reply_audio(
                     audio=audio_file,
@@ -124,7 +123,7 @@ async def callback_query_ytdl_audio(_, callback_query):
                 )
             await callback_query.message.delete()
     except Exception as e:
-        await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
     os.remove(audio_file)
     os.remove(thumbnail_file)
