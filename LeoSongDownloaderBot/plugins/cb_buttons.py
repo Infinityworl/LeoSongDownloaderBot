@@ -122,7 +122,7 @@ async def cb_data(Client, msg:CallbackQuery):
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
                     parse_mode="html"
                 )
-            except TimeoutError:
+        except TimeoutError:
                 await msg.answer(f"Sorry {msg.from_user.first_name}, Timed Out !!", show_alert=False)
         
         await Client.forward_messages(
