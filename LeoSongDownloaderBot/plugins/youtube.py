@@ -60,8 +60,8 @@ async def callback_query_ytdl_audio(_, callback_query):
                 os.rename(audio_file, audio_file_weba)
                 audio_file = audio_file_weba
             # thumbnail
-                thumbnail_url = info_dict['thumbnail']
-                thumbnail_file = basename + "." + \
+            thumbnail_url = info_dict['thumbnail']
+            thumbnail_file = basename + "." + \
                 get_file_extension_from_url(thumbnail_url)
             # info (s2tw)
             webpage_url = info_dict['webpage_url']
