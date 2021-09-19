@@ -66,11 +66,20 @@ async def cb_data(Client, msg:CallbackQuery):
             if ask_.text.startswith("-100"):
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Group ID Is Invalid !!", show_alert=False)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
             if len(ask_.text) >= 13:
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Group ID Is Invalid !!", show_alert=False)
+                missed_words = 13 - len(ask_.text)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
         except TimeoutError:
             await msg.answer(f"Sorry {msg.from_user.first_name}, Sorry Timed Out !!", show_alert=False)
         
@@ -99,13 +108,22 @@ async def cb_data(Client, msg:CallbackQuery):
             if ask_.text.startswith("-100"):
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Channel ID Is Invalid !!", show_alert=False)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="channel")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
             if len(ask_.text) >= 13:
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Channel ID Is Invalid !!", show_alert=False)
-        except TimeoutError:
-            await msg.answer(f"Sorry {msg.from_user.first_name}, Timed Out !!", show_alert=False)
+                missed_words = 13 - len(ask_.text)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
+            except TimeoutError:
+                await msg.answer(f"Sorry {msg.from_user.first_name}, Timed Out !!", show_alert=False)
         
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
