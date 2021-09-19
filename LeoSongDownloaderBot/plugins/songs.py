@@ -3,7 +3,7 @@
 
 
 from __future__ import unicode_literals
-
+import asyncio
 import html
 import os
 import time
@@ -68,6 +68,7 @@ async def song(client, message):
         return
     await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
     await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
+    await asyncio.sleep(3)
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
@@ -129,6 +130,7 @@ async def song(client, message):
 
         await m.delete()
     except Exception as e:
+        await asyncio.sleep(2)
         await m.edit_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print(e)
     try:
@@ -179,6 +181,7 @@ async def jssong(_, message):
         cap = "🎵 <b>Source</b> : <code>Saavn</code>\n\n<b>Downloaded By</b> : @leosongdownloaderbot 🇱🇰"
         await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
         song = await download_song(slink)
+        await asyncio.sleep(3)
         await m.edit("**Now I am Uploading Your Song ⏳\n\nPlease Wait 😊**")
         if message.chat.id == message.from_user.id:
             await message.reply_audio(
