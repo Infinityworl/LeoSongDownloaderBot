@@ -157,7 +157,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await msg.answer(f"Hi {msg.from_user.first_name} 👋\n\nTotal Users : {user_count} 💫\n\nLast Update :\n {dt} (UTC 🌎)\n {dtsl} (Sri Lanka 🇱🇰)\n\nShare And Support Us 😊", show_alert=True)
     
     elif msg.data == "no":
-        await msg.message.edit_text(text = f"{msg.from_user.mention},\n\nSorry For Disturbing You ☹️")
+        await msg.message.edit_text(text = f"{msg.from_user.mention},\n\n<b>Sorry For Disturbing You ☹️</b>")
         await asyncio.sleep(2)
         await msg.message.delete()
 
