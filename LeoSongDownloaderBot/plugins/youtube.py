@@ -123,7 +123,7 @@ async def callback_query_ytdl_audio(_, callback_query):
                 )
             await callback_query.message.delete()
     except Exception as e:
-        await callback_query.message.reply_text(text=f"{e}\n\nChat ID : [{message.chat.id}](tg://chat?id={message.chat.id}) 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        await callback_query.message.reply_text(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
     os.remove(audio_file)
     os.remove(thumbnail_file)
