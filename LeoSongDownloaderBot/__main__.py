@@ -92,10 +92,10 @@ async def show_status_count(_, client: Message):
 async def welcome(client:Client, message:Message):
     if message.text in ["Hi", "Hello", "Hey", "hi", "hello", "hey", "HI", "HELLO", "HEY"]:
         await message.reply_text(
-            text= f"**Hi** {message.from_user.first_name} 👋\n\n**How Are You ?? 😊**",
-            parse_mode="md"
+            text= f"<b>Hi</b> {message.from_user.first_name} 👋\n\n<b>How Are You ?? 😊</b>",
+            parse_mode="html"
         )
-    if message.text in ["Songs Download", "songs download", "songs down", "songs dwn", "Songs Dwn", "SONGS DOWNLOAD", "Songs download"]:
+    if message.text in ["Songs Download", "songs download", "songs down", "songs dwn", "Songs Dwn", "SONGS DOWNLOAD", "Songs download, song download, Song download, Song Download"]:
         await message.reply_text(
             text = f"**Hey** {message.from_user.mention}, **Do You Want To Download Songs ?**",
             reply_markup = InlineKeyboardMarkup(
