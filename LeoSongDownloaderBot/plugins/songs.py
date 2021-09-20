@@ -133,9 +133,21 @@ async def song(client, message):
     except Exception as e:
         print(e)
 
+#This is for jiosaavn downloader
+async def download_song(url):
+    song_name = f"{randint(6969, 6999)}.mp3"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            if resp.status == 200:
+                f = await aiofiles.open(song_name, mode="wb")
+                await f.write(await resp.read())
+                await f.close()
+    return song_name
+
 # Jiosaavn Music Downloader
 @app.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
 async def jssong(_, message):
+
     global is_downloading
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to download songs from saavn 👇\n\n<code>/saavn song_name</code>".format(message.from_user.mention))
