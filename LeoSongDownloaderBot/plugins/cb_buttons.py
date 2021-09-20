@@ -67,14 +67,14 @@ async def cb_data(Client, msg:CallbackQuery):
                 pass
             else:
                 await msg.message.reply_text(
-                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>",
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It is not Started With '-100 ' 😒</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
                     parse_mode="html"
                 )
             if len(ask_.text) >= 13:
                 pass
             else:
-                missed_words = 13 - len(ask_.text)
+                missed_words = 14 - len(ask_.text)
                 await msg.message.reply_text(
                     text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
@@ -109,14 +109,14 @@ async def cb_data(Client, msg:CallbackQuery):
                 pass
             else:
                 await msg.message.reply_text(
-                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>",
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>\n\n<b>Because It is not Started With '-100 ' 😒</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="channel")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
                     parse_mode="html"
                 )
             if len(ask_.text) >= 13:
                 pass
             else:
-                missed_words = 13 - len(ask_.text)
+                missed_words = 14 - len(ask_.text)
                 await msg.message.reply_text(
                     text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
