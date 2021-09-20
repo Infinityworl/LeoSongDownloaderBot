@@ -22,11 +22,8 @@ from helper.display_progress import progress_for_pyrogram, humanbytes, TimeForma
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from youtube_search import YoutubeSearch
-from helper.errors import capture_err
 
 is_downloading = False
-
-aiohttpsession = aiohttp.ClientSession()
 
 arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
@@ -134,22 +131,8 @@ async def song(client, message):
     except Exception as e:
         print(e)
 
-
-# Funtion To Download Song
-async def download_song(url):
-    song_name = f"{randint(6969, 6999)}.mp3"
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            if resp.status == 200:
-                f = await aiofiles.open(song_name, mode="wb")
-                await f.write(await resp.read())
-                await f.close()
-    return song_name
-
-
 # Jiosaavn Music Downloader
 @app.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
-@capture_err
 async def jssong(_, message):
     global is_downloading
     if len(message.command) < 2:
