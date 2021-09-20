@@ -273,6 +273,5 @@ async def lyrics_func(_, message):
     lyrics = song.result
     if len(lyrics) < 4095:
         await m.edit(f"__{lyrics}__")
-        return
-    lyrics = await paste(lyrics)
-    await m.edit(f"**Sorry {message.from_user.mention},\n\nI cannot upload lyrics to telegram becz You requested song's lyrics are too long !!\n\nBut you can get your lyrics from the below link😊\n**Your Song Lyrics: [Click Here]({lyrics})**")
+    else:
+        await m.edit(f"**Sorry {message.from_user.mention},\n\nI cannot upload lyrics to telegram becz You requested song's lyrics are too long !!\n\nBut you can get your lyrics from the below link😊\n**Your Song Lyrics: [Click Here]({lyrics})**")
