@@ -161,11 +161,6 @@ async def cb_data(Client, msg:CallbackQuery):
         await asyncio.sleep(2)
         await msg.message.delete()
 
-    elif msg.data == "yes":
-        await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg", caption="This Help Menu Will Be Usefull To You 😊\n\nUse The Below Buttons To Know How To Download Songs With Me 😊"),
-            reply_markup=Translation.HELP_BUTTONS
-        )
-        
     elif msg.data == "about":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg", caption=""),
             reply_markup=Translation.ABOUT_BUTTONS 
