@@ -25,6 +25,8 @@ from youtube_search import YoutubeSearch
 
 is_downloading = False
 
+aiohttpsession = aiohttp.ClientSession()
+
 arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @app.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
