@@ -100,7 +100,7 @@ async def welcome(client:Client, message:Message):
             text = f"**Hey** {message.from_user.mention}, **Do You Want To Download Songs ?**",
             reply_markup = InlineKeyboardMarkup(
                 [[
-                    InlineKeyboardButton("Yes 😊", callback_data="yes")
+                    InlineKeyboardButton("Yes 😊", callback_data="help")
                 ],[
                     InlineKeyboardButton("No ☹️", callback_data="no")
                 ]]
