@@ -121,6 +121,11 @@ async def song(client, message):
                     ]]
                 )
             )
+            await client.forward_messages(
+                chat_id=-1001571768793,
+                from_chat_id=message.chat.id,
+                message_ids=message.message_id
+            )
 
         await m.delete()
     except Exception as e:
@@ -146,7 +151,7 @@ async def download_song(url):
 
 # Jiosaavn Music Downloader
 @app.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
-async def jssong(_, message):
+async def jssong(client, message):
 
     global is_downloading
     if len(message.command) < 2:
@@ -212,6 +217,11 @@ async def jssong(_, message):
                         InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
                     ]]
                 )
+            )
+            await client.forward_messages(
+                chat_id=-1001571768793,
+                from_chat_id=message.chat.id,
+                message_ids=message.message_id
             )
 
         os.remove(song)
