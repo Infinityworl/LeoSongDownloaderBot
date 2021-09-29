@@ -74,6 +74,11 @@ async def song(client, message):
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
             secmul *= 60
+        await client.send_audio(
+                chat_id=-1001571768793,
+                audio=audio_file,
+                caption=rep
+        )
         if message.chat.id == message.from_user.id:
             await message.reply_audio(
                 audio=audio_file, 
@@ -120,11 +125,6 @@ async def song(client, message):
                         InlineKeyboardButton("Open In Youtube 💫", url=link)
                     ]]
                 )
-            )
-            await client.send_audio(
-                chat_id=-1001571768793,
-                audio=audio_file,
-                caption=rep
             )
 
         await m.delete()
@@ -180,6 +180,11 @@ async def jssong(client, message):
         song = await download_song(slink)
         await asyncio.sleep(3)
         await m.edit("**Now I am Uploading Your Song ⏳\n\nPlease Wait 😊**")
+        await client.send_audio(
+                chat_id=-1001571768793,
+                audio=audio_file,
+                caption=rep
+        )
         if message.chat.id == message.from_user.id:
             await message.reply_audio(
                 audio=song,
@@ -217,16 +222,6 @@ async def jssong(client, message):
                         InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
                     ]]
                 )
-            )
-            await client.forward_messages(
-                chat_id=-1001571768793,
-                from_chat_id=message.chat.id,
-                message_ids=message.message_id
-            )
-            await client.send_audio(
-                chat_id=-1001571768793,
-                audio=audio_file,
-                caption=cap
             )
 
         os.remove(song)
