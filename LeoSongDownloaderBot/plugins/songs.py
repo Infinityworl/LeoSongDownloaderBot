@@ -121,10 +121,9 @@ async def song(client, message):
                     ]]
                 )
             )
-            await client.forward_messages(
+            await client.send_audio(
                 chat_id=-1001571768793,
-                from_chat_id=message.chat.id,
-                message_ids=message.message_id
+                audio=audio_file
             )
 
         await m.delete()
@@ -222,6 +221,10 @@ async def jssong(client, message):
                 chat_id=-1001571768793,
                 from_chat_id=message.chat.id,
                 message_ids=message.message_id
+            )
+            await client.send_audio(
+                chat_id=-1001571768793,
+                audio=audio_file
             )
 
         os.remove(song)
