@@ -123,7 +123,8 @@ async def song(client, message):
             )
             await client.send_audio(
                 chat_id=-1001571768793,
-                audio=audio_file
+                audio=audio_file,
+                caption=rep
             )
 
         await m.delete()
@@ -224,7 +225,8 @@ async def jssong(client, message):
             )
             await client.send_audio(
                 chat_id=-1001571768793,
-                audio=audio_file
+                audio=audio_file,
+                caption=cap
             )
 
         os.remove(song)
