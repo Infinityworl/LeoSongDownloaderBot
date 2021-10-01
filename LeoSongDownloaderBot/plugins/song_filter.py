@@ -12,7 +12,7 @@ async def SongsFilter(client: Bot, message: Message):
             message_id = msg.message_id   
             await message.reply_chat_action("upload_audio")                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
-            await x.edit("Now I'm Uploading 💫")
+            await x.edit("**Now I'm Uploading 💫**")
 
             if message.chat.id == message.from_user.id:
                 await client.copy_message(
