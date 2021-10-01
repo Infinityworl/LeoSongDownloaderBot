@@ -33,11 +33,11 @@ class Bot(Client):
     async def start(self):
         await super().start()
         usr_bot_me = await self.get_me()
-        self.set_parse_mode("html")
+        self.set_parse_mode("md")
         self.USER, self.USER_ID = await User().start()
         await self.USER.send_message(
             chat_id=usr_bot_me.username,
-            text="😬🤒🤒"
+            text="Fuck !!"
         )
 
     async def stop(self, *args):
