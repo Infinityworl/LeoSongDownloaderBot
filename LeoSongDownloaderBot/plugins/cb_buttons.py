@@ -312,7 +312,7 @@ async def cb_data(Client, msg:CallbackQuery):
         if config.UPDATES_CHANNEL:
             invite_link = await Client.create_chat_invite_link(int(config.UPDATES_CHANNEL))
             try:
-                user = await Client.get_chat_member(int(config.UPDATES_CHANNEL), msg.message.chat.id)
+                user = await Client.get_chat_member(int(config.UPDATES_CHANNEL), msg.from_user.id)
                 if user.status == "kicked":
                     await msg.message.edit(
                         text="Sorry Sir, You are Banned to use me. Contact my [Support Group](https://t.me/leosupportx).",
