@@ -322,7 +322,7 @@ async def cb_data(Client, msg:CallbackQuery):
                     return
             except UserNotParticipant:
                 await msg.message.edit(
-                    text="<b>Hey</b> {},\n\n<b>You still didn't join our Updates Channel ☹️ \nPlease Join and hit on the 'Refresh 🔄' Button</b>".format(msg.message.from_user.mention),
+                    text="<b>Hey</b> {},\n\n<b>You still didn't join our Updates Channel ☹️ \nPlease Join and hit on the 'Refresh 🔄' Button</b>".format(msg.from_user.mention),
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
