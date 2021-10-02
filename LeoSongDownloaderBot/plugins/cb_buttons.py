@@ -3,16 +3,144 @@ import time
 import asyncio
 import datetime
 import pytz
+from urllib.parse import urlparse
 from pyromod import listen
 from LeoSongDownloaderBot.translation import Translation
 import config
-from LeoSongDownloaderBot.plugins.youtube import callback_query_ytdl_audio
 from helper.database.access_db import db
-from pyrogram import Client
+from pyrogram import Client, filters
 from asyncio import TimeoutError
 from pyrogram.errors import UserNotParticipant
+from youtube_dl import YoutubeDL
+from opencc import OpenCC
+from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import Client as app
+
+#for yt dl cb
+YTDL_REGEX = (r"^((?:https?:)?\/\/)"
+              r"?((?:www|m)\.)"
+              r"?((?:youtube\.com|youtu\.be))"
+              r"(\/)([-a-zA-Z0-9()@:%_\+.~#?&//=]*)([\w\-]+)(\S+)?$")
+s2tw = OpenCC('s2tw.json').convert
+
+@app.on_message(filters.text
+                   & ~filters.edited
+                   & filters.regex(YTDL_REGEX))
+async def ytdl_with_button(client: Client, message: Message):
+    await client.send_chat_action(chat_id=message.chat.id, action="typing")
+    await message.reply_text(
+        "**Please click the below button to download your song 😊**",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "Download 🎵",
+                        callback_data="ytdl_audio"
+                    )
+                ]
+            ]
+        ),
+        quote=True
+    )
+
+@app.on_callback_query(filters.regex("^ytdl_audio$"))
+async def callback_query_ytdl_audio(_, callback_query):
+    try:
+        url = callback_query.message.reply_to_message.text
+        ydl_opts = {
+            'format': 'bestaudio',
+            'outtmpl': '%(title)s - %(extractor)s-%(id)s.%(ext)s',
+            'writethumbnail': True
+        }
+        with YoutubeDL(ydl_opts) as ydl:
+            message = callback_query.message
+            info_dict = ydl.extract_info(url, download=False)
+            # download
+            await callback_query.message.reply_chat_action(action="upload_audio")
+            await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+            ydl.process_info(info_dict)
+            # upload
+            audio_file = ydl.prepare_filename(info_dict)
+            basename = audio_file.rsplit(".", 1)[-2]
+             # .webm -> .weba
+            if info_dict['ext'] == 'webm':
+                audio_file_weba = basename + ".weba"
+                os.rename(audio_file, audio_file_weba)
+                audio_file = audio_file_weba
+            # thumbnail
+                thumbnail_url = info_dict['thumbnail']
+                thumbnail_file = basename + "." + \
+                get_file_extension_from_url(thumbnail_url)
+            # info (s2tw)
+            webpage_url = info_dict['webpage_url']
+            title = s2tw(info_dict['title'])
+            duration = int(float(info_dict['duration']))
+            performer = s2tw(info_dict['uploader'])
+            caption = f"🎙**Title**: `{title[:35]}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
+            start_time = time.time()
+            if callback_query.message.chat.id == callback_query.from_user.id:
+                await message.reply_audio(
+                    audio=audio_file,
+                    caption=caption,
+                    duration=duration,
+                    performer=performer,
+                    title=title,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                    "Downloading Song 🎵",
+                    message,
+                    start_time
+                    ),  
+                    parse_mode='md',
+                    thumb=thumbnail_file,
+                    reply_markup=InlineKeyboardMarkup(
+                        [[
+                            InlineKeyboardButton("Requested By ❓", url=f"https://t.me/{callback_query.from_user.username}")
+                        ],[
+                            InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
+                        ],[
+                            InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                        ]]
+                    )
+                )
+            else:
+                await message.reply_audio(
+                    audio=audio_file,
+                    caption=caption,
+                    duration=duration,
+                    performer=performer,
+                    title=title,
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                    "Downloading Song 🎵",
+                    message,
+                    start_time
+                    ),  
+                    parse_mode='HTML',
+                    thumb=thumbnail_file,
+                    reply_markup=InlineKeyboardMarkup(
+                        [[
+                            InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
+                        ],[
+                            InlineKeyboardButton("Requested By ❓", url="https://t.me/{callback_query.from_user.username}")
+                        ],[
+                            InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                        ]]
+                    )
+                )
+            await callback_query.message.delete()
+    except Exception as e:
+        await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        print (e)
+    os.remove(audio_file)
+    os.remove(thumbnail_file)
+
+def get_file_extension_from_url(url):
+    url_path = urlparse(url).path
+    basename = os.path.basename(url_path)
+    return basename.split(".")[-1]
+
 
 @app.on_callback_query()
 async def cb_data(Client, msg:CallbackQuery):
@@ -54,6 +182,7 @@ async def cb_data(Client, msg:CallbackQuery):
         )
 
     elif msg.data == "group":
+        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Group 😊", show_alert=True)
         await Client.send_message(
             text="Please Enter Your Group ID : ",
             chat_id=msg.message.chat.id,
@@ -61,37 +190,43 @@ async def cb_data(Client, msg:CallbackQuery):
             reply_markup=ForceReply()
         )
         try:
-            await msg.answer(msg.id, f"{msg.from_user.first_name}, Successfully Reported To Owner 💫")
             ask_ : Message = await Client.listen(msg.message.chat.id, timeout=300)
             if ask_.text.startswith("-100"):
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Group ID Is Invalid !!", show_alert=False)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It is not Started With '-100 ' 😒</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
             if len(ask_.text) >= 13:
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Group ID Is Invalid !!", show_alert=False)
+                missed_words = 14 - len(ask_.text)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
         except TimeoutError:
             await msg.answer(f"Sorry {msg.from_user.first_name}, Sorry Timed Out !!", show_alert=False)
         
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
-            chat_id=ask_.text, 
+            chat_id=int(ask_.text), 
             message_ids=msg.message.message_id
         )
-
         await msg.message.reply_text(
             text=f"**Successfully Forwarded To** {ask_.text} 😊",
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Close ❌", callback_data="close")]])
         )
-   
     elif msg.data == "ingrpchnl":
         await msg.answer(f"{msg.from_user.first_name},\nLeo Song Downloader Bot Should Be Promoted As ADMIN In The Group / Channel To Forward Messages 😊", show_alert=True)
     
     elif msg.data == "channel":
-        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Group 😊", show_alert=True)
+        await msg.answer(f"Hey {msg.from_user.first_name},\n\nPlease Make Sure Leo Song Downloader Bot Is Promoted As Admin In Your Channel 😊", show_alert=True)
         await Client.send_message(
-            text="Please Enter Your Channel ID :",
+            text="Please Enter Your Channel ID : ",
             chat_id=msg.message.chat.id,
             reply_to_message_id=msg.message.message_id,
             reply_markup=ForceReply()
@@ -101,20 +236,32 @@ async def cb_data(Client, msg:CallbackQuery):
             if ask_.text.startswith("-100"):
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Channel ID Is Invalid !!", show_alert=False)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>\n\n<b>Because It is not Started With '-100 ' 😒</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="channel")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
             if len(ask_.text) >= 13:
                 pass
             else:
-                await msg.answer(f"{msg.from_user.first_name}, Sorry You Entered Channel ID Is Invalid !!", show_alert=False)
+                missed_words = 14 - len(ask_.text)
+                await msg.message.reply_text(
+                    text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
+                    parse_mode="html"
+                )
         except TimeoutError:
-            await msg.answer(f"Sorry {msg.from_user.first_name}, Timed Out !!", show_alert=False)
+                await msg.answer(f"Sorry {msg.from_user.first_name}, Timed Out !!", show_alert=False)
         
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
             chat_id=int(ask_.text), 
             message_ids=msg.message.message_id
         )
-        await msg.answer("Done", show_alert=True)
+        await msg.message.reply_text(
+            text=f"**Successfully Forwarded To** {ask_.text} 😊",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Close ❌", callback_data="close")]])
+        )
     elif msg.data == "help":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg", caption=""),
             reply_markup=Translation.HELP_BUTTONS
@@ -138,15 +285,10 @@ async def cb_data(Client, msg:CallbackQuery):
         await msg.answer(f"Hi {msg.from_user.first_name} 👋\n\nTotal Users : {user_count} 💫\n\nLast Update :\n {dt} (UTC 🌎)\n {dtsl} (Sri Lanka 🇱🇰)\n\nShare And Support Us 😊", show_alert=True)
     
     elif msg.data == "no":
-        await msg.message.edit_text(text = f"{msg.from_user.mention},\n\nSorry For Disturbing You ☹️")
+        await msg.message.edit_text(text = f"{msg.from_user.mention},\n\n<b>Sorry For Disturbing You ☹️</b>")
         await asyncio.sleep(2)
         await msg.message.delete()
 
-    elif msg.data == "yes":
-        await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/7af5e5f9537e4bbe3461a.jpg", caption="This Help Menu Will Be Usefull To You 😊\n\nUse The Below Buttons To Know How To Download Songs With Me 😊"),
-            reply_markup=Translation.HELP_BUTTONS
-        )
-        
     elif msg.data == "about":
         await msg.message.edit_media(media=InputMediaPhoto("https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg", caption=""),
             reply_markup=Translation.ABOUT_BUTTONS 
@@ -180,7 +322,7 @@ async def cb_data(Client, msg:CallbackQuery):
                     return
             except UserNotParticipant:
                 await msg.message.edit(
-                    text="<b>Hey</b> {},\n\n<b>You still didn't join our Updates Channel ☹️ \nPlease Join and hit on the 'Refresh 🔄' Button</b>".format(message.from_user.mention),
+                    text="<b>Hey</b> {},\n\n<b>You still didn't join our Updates Channel ☹️ \nPlease Join and hit on the 'Refresh 🔄' Button</b>".format(msg.message.from_user.mention),
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
@@ -201,10 +343,7 @@ async def cb_data(Client, msg:CallbackQuery):
                     disable_web_page_preview=True
                 )
                 return
-        await msg.message.edit(
-            text=Translation.START_TEXT.format(msg.from_user.mention),
-            disable_web_page_preview=True,
-            reply_markup=Translation.START_BUTTONS,
-        )
+        await msg.answer(f"Hey {msg.from_user.first_name} ,\n\nNow You can Download Songs From Me !!\n\nSimply Enter Song's Name In Correct Format 😊")
+        await msg.message.delete()
     else:
         await msg.message.delete()

@@ -40,9 +40,8 @@ async def ForceSub(bot: Client, event: Message):
         else:
             return 200
     except UserNotParticipant:
-        await bot.send_message(
-            chat_id=event.from_user.id,
-            text="<b>Hello {} 👋\n\nYou can't use me untill subscribe our Updates Channel ☹️\n\nSo Please join our Updates Channel by the following button and hit on the 'Refresh 🔄' Button 😊</b>".format(event.from_user.mention),
+        await event.reply_text(
+            text="<b>Hello {} 👋\n\nYou Can't Download Songs From Me Until Subscribe Our Updates Channel ☹️\n\nSo Please join our Updates Channel by the following button and hit on the 'Refresh 🔄' Button 😊</b>".format(event.from_user.mention),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -54,7 +53,7 @@ async def ForceSub(bot: Client, event: Message):
                     ],
                 ]
             ),
-            parse_mode="HTML",
+            parse_mode="html",
             reply_to_message_id=event.message_id
         )
         return 400

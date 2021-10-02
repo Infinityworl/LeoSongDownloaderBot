@@ -19,7 +19,7 @@ class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            session_name="Leo",
+            session_name="LeoSongDownloaderBot",
             api_hash=API_HASH,
             api_id=API_ID,
             plugins={
@@ -33,7 +33,6 @@ class Bot(Client):
     async def start(self):
         await super().start()
         usr_bot_me = await self.get_me()
-        self.set_parse_mode("md")
         self.USER, self.USER_ID = await User().start()
         await self.USER.send_message(
             chat_id=usr_bot_me.username,

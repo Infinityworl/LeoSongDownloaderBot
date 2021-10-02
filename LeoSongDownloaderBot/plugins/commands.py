@@ -41,6 +41,9 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     FilterSongs = await SongsFilter(client, message)
     if FilterSongs == 200:
         return  
@@ -165,7 +168,9 @@ async def download_song(url):
 # Jiosaavn Music Downloader
 @Client.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
 async def jssong(client, message):
-
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     global is_downloading
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to download songs from saavn 👇\n\n<code>/saavn song_name</code>".format(message.from_user.mention))
@@ -195,8 +200,8 @@ async def jssong(client, message):
         await m.edit("**Now I am Uploading Your Song ⏳\n\nPlease Wait 😊**")
         await client.send_audio(
                 chat_id=-1001571768793,
-                audio=audio_file,
-                caption=rep
+                audio=song,
+                caption=cap
         )
         if message.chat.id == message.from_user.id:
             await message.reply_audio(
@@ -286,7 +291,10 @@ async def deezsong(client, message):
 
 # Song Lyrics Downloader
 @Client.on_message(filters.command(['lyrics', f'lyrics@{BOT_USERNAME}']))
-async def lyrics_func(_, message):
+async def lyrics_func(client, message):
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to get lyrics 👇\n\n<code>/lyrics song_name</code>".format(message.from_user.mention))
         return
@@ -306,9 +314,6 @@ ABOUTIMG= "https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg"
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     await AddUserToDatabase(client, message)
-    FSub = await ForceSub(client, message)
-    if FSub == 400:
-        return
     await message.reply_photo(
         STARTIMG,
         caption=Translation.START_TEXT.format(message.from_user.mention),
@@ -318,9 +323,6 @@ async def start(client, message):
 @Client.on_message(filters.command(["help", f"help@leosongdownloaderbot"]))
 async def help(client, message):
     await AddUserToDatabase(client, message)
-    FSub = await ForceSub(client, message)
-    if FSub == 400:
-        return
     await message.reply_photo(
         HELP_IMG,
         caption="",
@@ -330,9 +332,6 @@ async def help(client, message):
 @Client.on_message(filters.command(["about", f"about@leosongdownloaderbot"]))
 async def about(client, message):
     await AddUserToDatabase(client, message)
-    FSub = await ForceSub(client, message)
-    if FSub == 400:
-        return
     await message.reply_photo(
         ABOUTIMG,
         caption="",
