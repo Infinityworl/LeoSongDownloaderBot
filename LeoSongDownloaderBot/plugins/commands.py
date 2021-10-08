@@ -58,7 +58,7 @@ async def song(client: Client, message: Message):
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
         #print(results)
-        title = results[0]["title"][:200]       
+        title = results[0]["title"]       
         thumbnail = results[0]["thumbnails"][0]
         channel = results[0]["channel"][:50]
         thumb_name = f'thumb{title}.jpg'
