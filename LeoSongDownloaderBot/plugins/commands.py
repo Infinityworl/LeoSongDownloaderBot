@@ -76,17 +76,18 @@ async def song(client: Client, message: Message):
         )
         print(str(err))
         return
-    
-    else:
-        await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
-        await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
-        await asyncio.sleep(3)
-        try:
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    try:
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(link, download=False)
                 ydl.process_info(info_dict)
-                size = int(results[0]["filesize"])
+                size = int(info_dict["filesize"])
                 audio_file = ydl.prepare_filename(info_dict)
+        if {size}/1024/1024 > 50:
+            await message.reply_text(
+                text=f"**Hey** {message.from_user.mention},\n\n**I cannot Download Song That You Requested Because I Can't Upload It To Telegram 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
+        else:
+            await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+            await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
             rep = f'🎙**Title**: `{title[:35]}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n🗣 **Released By** :` {channel}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰'
             start_time = time.time()
             secmul, dur, dur_arr = 1, 0, duration.split(':')
@@ -147,15 +148,15 @@ async def song(client: Client, message: Message):
                 )
 
             await m.delete()
-        except Exception as e:
-            await asyncio.sleep(2)
-            await m.edit_text(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
-            print(e)
-        try:
-            os.remove(audio_file)
-            os.remove(thumb_name)
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        await asyncio.sleep(2)
+        await m.edit_text(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        print(e)
+    try:
+        os.remove(audio_file)
+        os.remove(thumb_name)
+    except Exception as e:
+        print(e)
 
 #This is for jiosaavn downloader
 async def download_song(url):
