@@ -79,9 +79,10 @@ async def song(client: Client, message: Message):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(link, download=False)
                 ydl.process_info(info_dict)
-                size = int(info_dict["filesize"])
                 audio_file = ydl.prepare_filename(info_dict)
-        if int(info_dict["filesize"])/1024/1024 > 50:
+                size = int(info_dict["filesize"])
+
+        if size/1024/1024 > 50:
             await message.reply_text(
                 text=f"**Hey** {message.from_user.mention},\n\n**I cannot Download Song That You Requested Because I Can't Upload It To Telegram 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
         else:

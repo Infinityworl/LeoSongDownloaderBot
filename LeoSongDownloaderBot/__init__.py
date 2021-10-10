@@ -25,7 +25,7 @@ class Bot(Client):
             plugins={
                 "root": "LeoSongDownloaderBot/plugins"
             },
-            workers=10,
+            workers=200,
             bot_token=BOT_TOKEN
         )
         self.LOGGER = LOGGER
