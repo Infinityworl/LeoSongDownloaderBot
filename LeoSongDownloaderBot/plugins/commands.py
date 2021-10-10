@@ -69,7 +69,7 @@ async def song(client: Client, message: Message):
         duration = results[0]["duration"]
         url_suffix = results[0]["url_suffix"]
         views = results[0]["views"]
-        size = int(results[0]["filesize"])
+        size = results["filesize"]
 
     except Exception as err:
         await m.edit(
@@ -367,11 +367,9 @@ async def show_status_count(_, client: Message):
         quote=True
     )
 @Client.on_message()
-async def welcome(client:Client, message:Message):
+async def welcome(client: Client, message: Message):
     if message.text in ["Hi", "Hello", "Hey", "hi", "hello", "hey", "HI", "HELLO", "HEY"]:
-        await message.reply_text(
-            text = f"**Hi** {message.from_user.mention} 👋\n\n**How Are You ??**"
-        )
+        await message.reply_text(f"**Hi** {message.from_user.mention} 👋\n\n**How Are You ??**")
     if message.text in ["Songs Download", "songs download", "songs down", "songs dwn", "Songs Dwn", "SONGS DOWNLOAD", "Songs download"]:
         await message.reply_text(
             text = f"**Hey** {message.from_user.mention}, **Do You Want To Download Songs ?**",
