@@ -41,6 +41,7 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
+    await AddUserToDatabase(client, message)
     FSub = await ForceSub(client, message)
     if FSub == 400:
         return
@@ -51,8 +52,6 @@ async def song(client: Client, message: Message):
     for i in message.command[1:]:
         query += ' ' + str(i)
     print(query)
-    await client.send_chat_action(chat_id=message.chat.id, action="typing")
-    m = await message.reply_text('**Now I am Searching Your Song 🔎\n\nPlease Wait 😊**')
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -69,9 +68,12 @@ async def song(client: Client, message: Message):
         duration = results[0]["duration"]
         url_suffix = results[0]["url_suffix"]
         views = results[0]["views"]
+    
+        await client.send_chat_action(chat_id=message.chat.id, action="typing")
+        m = await message.reply_text('**Now I am Searching Your Song 🔎\n\nPlease Wait 😊**')
 
     except Exception as err:
-        await m.edit(
+        await message.reply_text(
             "Nothing Found {} ☹️\n\nPlease check, you using correct format or your spellings are correct and try again 😊\n\nFormat : /song song_name 💫".format(message.from_user.mention)
         )
         print(str(err))
@@ -82,7 +84,7 @@ async def song(client: Client, message: Message):
                 ydl.process_info(info_dict)
                 size = int(info_dict["filesize"])
                 audio_file = ydl.prepare_filename(info_dict)
-        if {size}/1024/1024 > 50:
+        if int({size})/1024/1024 > 50:
             await message.reply_text(
                 text=f"**Hey** {message.from_user.mention},\n\n**I cannot Download Song That You Requested Because I Can't Upload It To Telegram 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
         else:
