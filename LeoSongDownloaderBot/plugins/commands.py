@@ -82,7 +82,7 @@ async def song(client: Client, message: Message):
     await asyncio.sleep(3)
     if int({size})/1024/1024 > 50:
         await message.reply_text(
-              text=f"**Hey** {message.from_user.mention},\n\n**I cannot Download Song That You Requested Because I Can't Upload It To Telegram 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size}/1024//1024)** **MB** 😑",
+            text=f"**Hey** {message.from_user.mention},\n\n**I cannot Download Song That You Requested Because I Can't Upload It To Telegram 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑",
         )
     else:
         try:
@@ -370,8 +370,7 @@ async def show_status_count(_, client: Message):
 async def welcome(client:Client, message:Message):
     if message.text in ["Hi", "Hello", "Hey", "hi", "hello", "hey", "HI", "HELLO", "HEY"]:
         await message.reply_text(
-            text = f"**Hi** {message.from_user.mention} 👋\n\n**How Are You ??**",
-            parse_mode="md"
+            text = f"**Hi** {message.from_user.mention} 👋\n\n**How Are You ??**"
         )
     if message.text in ["Songs Download", "songs download", "songs down", "songs dwn", "Songs Dwn", "SONGS DOWNLOAD", "Songs download"]:
         await message.reply_text(
