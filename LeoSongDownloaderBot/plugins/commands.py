@@ -69,7 +69,7 @@ async def song(client: Client, message: Message):
         duration = results[0]["duration"]
         url_suffix = results[0]["url_suffix"]
         views = results[0]["views"]
-        size = results["filesize"]
+        size = results[0]["filesize"]
 
     except Exception as err:
         await m.edit(
