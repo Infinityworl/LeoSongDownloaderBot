@@ -53,6 +53,13 @@ async def callback_query_ytdl_audio(client, callback_query):
             # upload
             audio_file = ydl.prepare_filename(info_dict)
             basename = audio_file.rsplit(".", 1)[-2]
+            # size 
+            size = int(info_dict["filesize"])
+            if size/1024/1024 > 50:
+                await message.reply_text(
+                text=f"**Hey** {message.from_user.mention},\n\n**I Can't Download Song That You Requested 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
+            else:
+                pass
              # .webm -> .weba
             if info_dict['ext'] == 'webm':
                 audio_file_weba = basename + ".weba"

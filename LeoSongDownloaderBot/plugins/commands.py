@@ -42,9 +42,6 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
-    FSub = await ForceSub(client, message)
-    if FSub == 400:
-        return
     FilterSongs = await SongsFilter(client, message)
     if FilterSongs == 200:
         return  
@@ -84,7 +81,7 @@ async def song(client: Client, message: Message):
 
         if size/1024/1024 > 50:
             await message.reply_text(
-                text=f"**Hey** {message.from_user.mention},\n\n**I cannot Download Song That You Requested Because I Can't Upload It To Telegram 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
+                text=f"**Hey** {message.from_user.mention},\n\n**I Can't Download Song That You Requested 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
         else:
             m = await message.reply_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
             await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
