@@ -75,76 +75,78 @@ async def song(client: Client, message: Message):
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(link, download=False)
-                ydl.process_info(info_dict)
-                audio_file = ydl.prepare_filename(info_dict)
                 size = int(info_dict["filesize"])
 
-        if size/1024/1024 > 50:
-            await message.reply_text(
-                text=f"**Hey** {message.from_user.mention},\n\n**I Can't Download Song That You Requested 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **int({size})/1024//1024** **MB** 😑")         
-        else:
-            m = await message.reply_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
-            await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
-            rep = f'🎙**Title**: `{title[:35]}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n🗣 **Released By** :` {channel}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰'
-            start_time = time.time()
-            secmul, dur, dur_arr = 1, 0, duration.split(':')
-            for i in range(len(dur_arr)-1, -1, -1):
-                dur += (int(dur_arr[i]) * secmul)
-                secmul *= 60
-            await client.send_audio(
-                chat_id=-1001571768793,
-                audio=audio_file,
-                caption=rep
-            )
-            if message.chat.id == message.from_user.id:
-                await message.reply_audio(
-                    audio=audio_file, 
-                    caption=rep,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        "Downloading Song 🎵",
-                        m,
-                        start_time
-                    ),  
-                    thumb=thumb_name, 
-                    parse_mode="md", 
-                    title=title,
-                    duration=dur,
-                    reply_markup=InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("Requested By ❓",url=f"https://t.me/{message.from_user.username}")
-                        ],[
-                            InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
-                        ],[
-                            InlineKeyboardButton("Open In Youtube 💫", url=link)
-                        ]]
+                if size/1024/1024 > 50:
+                    await message.reply_text(
+                        text=f"**Hey** {message.from_user.mention},\n\n**I Can't Download Song That You Requested 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **{size/1024//1024}** **MB** 😑",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Close ❌", callback_data="close")]])
                     )
-                )
-            else:
-                await message.reply_audio(
-                    audio=audio_file, 
-                    caption=rep,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        "Downloading Song 🎵",
-                        m,
-                        start_time),  
-                    thumb=thumb_name, 
-                    parse_mode="md", 
-                    title=title,
-                    duration=dur,
-                    reply_markup=InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
-                        ],[
-                            InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
-                        ],[
-                            InlineKeyboardButton("Open In Youtube 💫", url=link)
-                        ]]
+                
+                else:
+                    m = await message.reply_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+                    await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
+                    ydl.process_info(info_dict)
+                    audio_file = ydl.prepare_filename(info_dict) 
+                    rep = f'🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n🗣 **Released By** :` {channel}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰'
+                    start_time = time.time()
+                    secmul, dur, dur_arr = 1, 0, duration.split(':')
+                    for i in range(len(dur_arr)-1, -1, -1):
+                        dur += (int(dur_arr[i]) * secmul)
+                    secmul *= 60
+                    await client.send_audio(
+                        chat_id=-1001571768793,
+                        audio=audio_file,
+                        caption=rep
                     )
-                )
-
-            await m.delete()
+                    if message.chat.id == message.from_user.id:
+                            await message.reply_audio(
+                            audio=audio_file, 
+                            caption=rep,
+                            progress=progress_for_pyrogram,
+                            progress_args=(
+                                "Downloading Song 🎵",
+                                m,
+                                start_time
+                            ),  
+                            thumb=thumb_name, 
+                            parse_mode="md", 
+                            title=title,
+                            duration=dur,
+                            reply_markup=InlineKeyboardMarkup(
+                                [[
+                                    InlineKeyboardButton("Requested By ❓",url=f"https://t.me/{message.from_user.username}")
+                                ],[
+                                    InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
+                                ],[
+                                    InlineKeyboardButton("Open In Youtube 💫", url=link)
+                                ]]
+                            )
+                        )
+                    else:
+                        await message.reply_audio(
+                        audio=audio_file, 
+                        caption=rep,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            "Downloading Song 🎵",
+                            m,
+                            start_time),  
+                        thumb=thumb_name, 
+                        parse_mode="md", 
+                        title=title,
+                        duration=dur,
+                        reply_markup=InlineKeyboardMarkup(
+                            [[
+                                InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
+                            ],[
+                                InlineKeyboardButton("Requested By ❓", url="https://t.me/{message.from_user.username}")
+                            ],[
+                                InlineKeyboardButton("Open In Youtube 💫", url=link)
+                            ]]
+                        )
+                    )
+                    await m.delete()
     except Exception as e:
         await asyncio.sleep(2)
         await m.edit_text(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))

@@ -56,80 +56,90 @@ async def callback_query_ytdl_audio(_, callback_query):
         with YoutubeDL(ydl_opts) as ydl:
             message = callback_query.message
             info_dict = ydl.extract_info(url, download=False)
+            size = int(info_dict["filesize"])
+        
+            if size/1024/1024 > 50:
+                await message.reply_text(
+                        text=f"**Hey** {callback_query.from_user.mention},\n\n**I Can't Download Song That You Requested 😒**\n**Reason Is I can't Upload Songs Than 50MB To Telegram Because OF Telegram API Limit**\n\n **You Requested Song's Size :** **{size/1024/1024}** **MB** 😑",
+                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Close ❌", callback_data="close")]])
+                )                 
+            else:
             # download
-            await callback_query.message.reply_chat_action(action="upload_audio")
-            await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
-            ydl.process_info(info_dict)
+                await callback_query.message.reply_chat_action(action="upload_audio")
+                await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+                ydl.process_info(info_dict)
             # upload
-            audio_file = ydl.prepare_filename(info_dict)
-            basename = audio_file.rsplit(".", 1)[-2]
+                audio_file = ydl.prepare_filename(info_dict)
+                basename = audio_file.rsplit(".", 1)[-2]
              # .webm -> .weba
-            if info_dict['ext'] == 'webm':
-                audio_file_weba = basename + ".weba"
-                os.rename(audio_file, audio_file_weba)
-                audio_file = audio_file_weba
+                if info_dict['ext'] == 'webm':
+                    audio_file_weba = basename + ".weba"
+                    os.rename(audio_file, audio_file_weba)
+                    audio_file = audio_file_weba
+            
+                
             # thumbnail
                 thumbnail_url = info_dict['thumbnail']
                 thumbnail_file = basename + "." + \
                 get_file_extension_from_url(thumbnail_url)
             # info (s2tw)
-            webpage_url = info_dict['webpage_url']
-            title = s2tw(info_dict['title'])
-            duration = int(float(info_dict['duration']))
-            performer = s2tw(info_dict['uploader'])
-            caption = f"🎙**Title**: `{title[:35]}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
-            start_time = time.time()
-            if callback_query.message.chat.id == callback_query.from_user.id:
-                await message.reply_audio(
-                    audio=audio_file,
-                    caption=caption,
-                    duration=duration,
-                    performer=performer,
-                    title=title,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                    "Downloading Song 🎵",
-                    message,
-                    start_time
-                    ),  
-                    parse_mode='md',
-                    thumb=thumbnail_file,
-                    reply_markup=InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("Requested By ❓", url=f"https://t.me/{callback_query.from_user.username}")
-                        ],[
-                            InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
-                        ],[
-                            InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
-                        ]]
+                webpage_url = info_dict['webpage_url']
+                title = s2tw(info_dict['title'])
+                duration = int(float(info_dict['duration']))
+                performer = s2tw(info_dict['uploader'])
+                caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
+                start_time = time.time()
+                if callback_query.message.chat.id == callback_query.from_user.id:
+                    await message.reply_audio(
+                        audio=audio_file,
+                        caption=caption,
+                        duration=duration,
+                        performer=performer,
+                        title=title,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            "Downloading Song 🎵",
+                            message,
+                            start_time
+                        ),  
+                        parse_mode='md',
+                        thumb=thumbnail_file,
+                        reply_markup=InlineKeyboardMarkup(
+                            [[
+                                InlineKeyboardButton("Requested By ❓", url=f"https://t.me/{callback_query.from_user.username}")
+                            ],[
+                                InlineKeyboardButton("Send To Channel / Group 🧑‍💻", callback_data="sendtochannel")
+                            ],[
+                                InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                            ]]
+                        )
                     )
-                )
-            else:
-                await message.reply_audio(
-                    audio=audio_file,
-                    caption=caption,
-                    duration=duration,
-                    performer=performer,
-                    title=title,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                    "Downloading Song 🎵",
-                    message,
-                    start_time
-                    ),  
-                    parse_mode='HTML',
-                    thumb=thumbnail_file,
-                    reply_markup=InlineKeyboardMarkup(
-                        [[
-                            InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
-                        ],[
-                            InlineKeyboardButton("Requested By ❓", url="https://t.me/{callback_query.from_user.username}")
-                        ],[
-                            InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
-                        ]]
+                else:
+                    await message.reply_audio(
+                        audio=audio_file,
+                        caption=caption,
+                        duration=duration,
+                        performer=performer,
+                        title=title,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            "Downloading Song 🎵",
+                            message,
+                            start_time
+                        ),  
+                        parse_mode='HTML',
+                        thumb=thumbnail_file,
+                        reply_markup=InlineKeyboardMarkup(
+                            [[
+                                InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
+                            ],[
+                                InlineKeyboardButton("Requested By ❓", url="https://t.me/{callback_query.from_user.username}")
+                            ],[
+                                InlineKeyboardButton("Open In Youtube 💫", url=webpage_url)
+                            ]]
+                        )
                     )
-                )
-            await callback_query.message.delete()
+                await callback_query.message.delete()
     except Exception as e:
         await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
@@ -140,6 +150,7 @@ def get_file_extension_from_url(url):
     url_path = urlparse(url).path
     basename = os.path.basename(url_path)
     return basename.split(".")[-1]
+
 
 
 @app.on_callback_query()
