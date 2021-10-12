@@ -13,7 +13,7 @@ async def SongsFilter(client: Bot, message: Message):
         async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text[5:], filter="audio", limit=1):
             message_id = msg.message_id   
             await message.reply_chat_action("upload_audio")                  
-            x=await message.reply_text("Now I'm Downloading ⏳")
+            x=await message.reply_text("**Now I'm Downloading ⏳**")
             await x.edit("**Now I'm Uploading 💫**")
 
             if message.chat.id == message.from_user.id:
