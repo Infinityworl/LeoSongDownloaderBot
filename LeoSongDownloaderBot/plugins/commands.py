@@ -65,6 +65,8 @@ async def song(client: Client, message: Message):
         duration = results[0]["duration"]
         url_suffix = results[0]["url_suffix"]
         views = results[0]["views"]
+    
+        m = await message.reply_text("**Now I am Searching Your Song ⏳\n\nPlease Wait 😊**")
 
     except Exception as err:
         await message.reply_text(
@@ -84,7 +86,7 @@ async def song(client: Client, message: Message):
                     )
                 
                 else:
-                    m = await message.reply_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
+                    await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
                     await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
                     ydl.process_info(info_dict)
                     audio_file = ydl.prepare_filename(info_dict) 
@@ -149,7 +151,7 @@ async def song(client: Client, message: Message):
                     await m.delete()
     except Exception as e:
         await asyncio.sleep(2)
-        await m.edit_text(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        await m.edit(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print(e)
     try:
         os.remove(audio_file)
