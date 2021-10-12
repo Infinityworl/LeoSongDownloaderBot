@@ -26,6 +26,7 @@ class Bot(Client):
                 "root": "LeoSongDownloaderBot/plugins"
             },
             workers=200,
+            sleep_threshold=5,
             bot_token=BOT_TOKEN
         )
         self.LOGGER = LOGGER
