@@ -1,8 +1,7 @@
 youtube_search
 pytz
 requests
-youtube_dl
-youtube-dl
+yt_dlp
 aiohttp
 Pyrogram
 Tgcrypto

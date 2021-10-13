@@ -17,7 +17,7 @@ from config import ARQ_API_KEY, UPDATES_CHANNEL, BOT_USERNAME
 import aiofiles
 import aiohttp
 import requests
-import youtube_dl
+import yt_dlp
 from pyrogram import Client, filters
 from LeoSongDownloaderBot.plugins.cb_buttons import cb_data
 from helper.display_progress import progress_for_pyrogram, humanbytes, TimeFormatter
@@ -75,7 +75,7 @@ async def song(client: Client, message: Message):
         print(str(err))
         return
     try:
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(link, download=False)
                 size = int(info_dict["filesize"])
 

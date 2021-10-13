@@ -11,7 +11,7 @@ from helper.database.access_db import db
 from pyrogram import Client, filters
 from asyncio import TimeoutError
 from pyrogram.errors import UserNotParticipant
-from youtube_dl import YoutubeDL
+import yt_dlp
 from opencc import OpenCC
 from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
@@ -53,7 +53,7 @@ async def callback_query_ytdl_audio(client, callback_query):
             'outtmpl': '%(title)s - %(extractor)s-%(id)s.%(ext)s',
             'writethumbnail': True
         }
-        with YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             message = callback_query.message
             info_dict = ydl.extract_info(url, download=False)
             size = int(info_dict["filesize"])
