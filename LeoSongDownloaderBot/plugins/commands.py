@@ -95,7 +95,7 @@ async def song(client: Client, message: Message):
                     secmul, dur, dur_arr = 1, 0, duration.split(':')
                     for i in range(len(dur_arr)-1, -1, -1):
                         dur += (int(dur_arr[i]) * secmul)
-                    secmul *= 60
+                        secmul *= 60
                     await client.send_audio(
                         chat_id=-1001571768793,
                         audio=audio_file,
