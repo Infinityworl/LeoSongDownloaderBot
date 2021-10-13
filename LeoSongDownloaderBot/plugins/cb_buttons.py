@@ -45,7 +45,7 @@ async def ytdl_with_button(client: Client, message: Message):
     )
 
 @app.on_callback_query(filters.regex("^ytdl_audio$"))
-async def callback_query_ytdl_audio(_, callback_query):
+async def callback_query_ytdl_audio(client, callback_query):
     try:
         url = callback_query.message.reply_to_message.text
         ydl_opts = {
@@ -89,6 +89,13 @@ async def callback_query_ytdl_audio(_, callback_query):
                 performer = s2tw(info_dict['uploader'])
                 caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
                 start_time = time.time()
+                await client.send_audio(
+                        chat_id=-1001571768793,
+                        audio=audio_file,
+                        caption=caption,
+                        thumb=thumbnail_file,
+                        title=title
+                    )
                 if callback_query.message.chat.id == callback_query.from_user.id:
                     await message.reply_audio(
                         audio=audio_file,
@@ -140,11 +147,14 @@ async def callback_query_ytdl_audio(_, callback_query):
                         )
                     )
                 await callback_query.message.delete()
+                try:
+                    os.remove(audio_file)
+                    os.remove(thumbnail_file)
+                except Exception as e:
+                    print(e)
     except Exception as e:
-        await message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
+        await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
-    os.remove(audio_file)
-    os.remove(thumbnail_file)
 
 def get_file_extension_from_url(url):
     url_path = urlparse(url).path

@@ -99,7 +99,9 @@ async def song(client: Client, message: Message):
                     await client.send_audio(
                         chat_id=-1001571768793,
                         audio=audio_file,
-                        caption=rep
+                        caption=rep,
+                        thumb=thumb_name,
+                        title=title
                     )
                     if message.chat.id == message.from_user.id:
                             await message.reply_audio(
@@ -149,14 +151,13 @@ async def song(client: Client, message: Message):
                         )
                     )
                     await m.delete()
+                    try:
+                        os.remove(audio_file)
+                        os.remove(thumb_name)
+                    except Exception as e:
+                        print(e)
     except Exception as e:
-        await asyncio.sleep(2)
         await m.edit(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
-        print(e)
-    try:
-        os.remove(audio_file)
-        os.remove(thumb_name)
-    except Exception as e:
         print(e)
 
 #This is for jiosaavn downloader
@@ -173,9 +174,6 @@ async def download_song(url):
 # Jiosaavn Music Downloader
 @Client.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
 async def jssong(client, message):
-    FSub = await ForceSub(client, message)
-    if FSub == 400:
-        return
     global is_downloading
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to download songs from saavn 👇\n\n<code>/saavn song_name</code>".format(message.from_user.mention))
@@ -201,12 +199,13 @@ async def jssong(client, message):
         cap = "🎵 <b>Source</b> : <code>Saavn</code>\n\n<b>Downloaded By</b> : @leosongdownloaderbot 🇱🇰"
         await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
         song = await download_song(slink)
-        await asyncio.sleep(3)
         await m.edit("**Now I am Uploading Your Song ⏳\n\nPlease Wait 😊**")
         await client.send_audio(
                 chat_id=-1001571768793,
                 audio=song,
-                caption=cap
+                caption=cap,
+                title=sname,
+                performer=ssingers
         )
         if message.chat.id == message.from_user.id:
             await message.reply_audio(
@@ -297,9 +296,6 @@ async def deezsong(client, message):
 # Song Lyrics Downloader
 @Client.on_message(filters.command(['lyrics', f'lyrics@{BOT_USERNAME}']))
 async def lyrics_func(client, message):
-    FSub = await ForceSub(client, message)
-    if FSub == 400:
-        return
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to get lyrics 👇\n\n<code>/lyrics song_name</code>".format(message.from_user.mention))
         return
@@ -319,6 +315,9 @@ ABOUTIMG= "https://telegra.ph/file/3a3d6c2bc0262d656fbf2.jpg"
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     await AddUserToDatabase(client, message)
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     await message.reply_photo(
         STARTIMG,
         caption=Translation.START_TEXT.format(message.from_user.mention),
@@ -328,6 +327,9 @@ async def start(client, message):
 @Client.on_message(filters.command(["help", f"help@leosongdownloaderbot"]))
 async def help(client, message):
     await AddUserToDatabase(client, message)
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     await message.reply_photo(
         HELP_IMG,
         caption="",
@@ -337,6 +339,9 @@ async def help(client, message):
 @Client.on_message(filters.command(["about", f"about@leosongdownloaderbot"]))
 async def about(client, message):
     await AddUserToDatabase(client, message)
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     await message.reply_photo(
         ABOUTIMG,
         caption="",
