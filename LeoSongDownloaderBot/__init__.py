@@ -19,14 +19,13 @@ class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            session_name="LeoSongDownloaderBot",
+            session_name="LeoSongDownloaderBotX",
             api_hash=API_HASH,
             api_id=API_ID,
             plugins={
                 "root": "LeoSongDownloaderBot/plugins"
             },
-            workers=200,
-            sleep_threshold=5,
+            workers=50,
             bot_token=BOT_TOKEN
         )
         self.LOGGER = LOGGER
