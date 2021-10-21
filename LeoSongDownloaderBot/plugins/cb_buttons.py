@@ -89,18 +89,23 @@ async def callback_query_ytdl_audio(client, callback_query):
                 performer = s2tw(info_dict['uploader'])
                 caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
                 start_time = time.time()
+                secmul, dur, dur_arr = 1, 0, duration.split(':')
+                for i in range(len(dur_arr)-1, -1, -1):
+                    dur += (int(dur_arr[i]) * secmul)
+                    secmul *= 60
                 await client.send_audio(
                         chat_id=-1001571768793,
                         audio=audio_file,
                         caption=caption,
                         thumb=thumbnail_file,
-                        title=title
+                        title=title,
+                        duration=dur
                     )
                 if callback_query.message.chat.id == callback_query.from_user.id:
                     await message.reply_audio(
                         audio=audio_file,
                         caption=caption,
-                        duration=duration,
+                        duration=dur,
                         performer=performer,
                         title=title,
                         progress=progress_for_pyrogram,
@@ -127,6 +132,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                         caption=caption,
                         duration=duration,
                         performer=performer,
+                        duration=dur,
                         title=title,
                         progress=progress_for_pyrogram,
                         progress_args=(

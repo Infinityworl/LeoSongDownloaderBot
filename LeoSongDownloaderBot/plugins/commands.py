@@ -101,7 +101,8 @@ async def song(client: Client, message: Message):
                         audio=audio_file,
                         caption=rep,
                         thumb=thumb_name,
-                        title=title
+                        title=title,
+                        duration=dur
                     )
                     if message.chat.id == message.from_user.id:
                             await message.reply_audio(
