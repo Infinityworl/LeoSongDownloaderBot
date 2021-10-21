@@ -130,7 +130,6 @@ async def callback_query_ytdl_audio(client, callback_query):
                     await message.reply_audio(
                         audio=audio_file,
                         caption=caption,
-                        duration=duration,
                         performer=performer,
                         duration=dur,
                         title=title,
