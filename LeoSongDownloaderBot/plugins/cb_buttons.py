@@ -87,7 +87,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                 title = s2tw(info_dict['title'])
                 duration = str(info_dict['duration'])
                 performer = s2tw(info_dict['uploader'])
-                caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
+                caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
                 start_time = time.time()
                 secmul, dur, dur_arr = 1, 0, duration.split(':')
                 for i in range(len(dur_arr)-1, -1, -1):
