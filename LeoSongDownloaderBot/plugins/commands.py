@@ -41,7 +41,6 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
-    await AddUserToDatabase(client, message)
     FilterSongs = await SongsFilter(client, message)
     if FilterSongs == 200:
         return  
@@ -87,9 +86,9 @@ async def song(client: Client, message: Message):
                 
                 else:
                     await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
-                    await client.send_chat_action(chat_id=message.chat.id, action="upload_audio")
                     ydl.process_info(info_dict)
-                    audio_file = ydl.prepare_filename(info_dict) 
+                    audio_file = ydl.prepare_filename(info_dict)
+                    await client.send_chat_action(chat_id=message.chat.id, action="upload_audio") 
                     rep = f'🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n🗣 **Released By** :` {channel}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰'
                     start_time = time.time()
                     secmul, dur, dur_arr = 1, 0, duration.split(':')
