@@ -41,6 +41,7 @@ arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
+    await AddUserToDatabase(client, message)
     FilterSongs = await SongsFilter(client, message)
     if FilterSongs == 200:
         return  
