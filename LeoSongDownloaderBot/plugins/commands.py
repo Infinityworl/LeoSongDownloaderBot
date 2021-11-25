@@ -161,9 +161,9 @@ async def song(client: Client, message: Message):
         await m.edit_text(text=f"{e}\n\nChat ID : <code>{message.chat.id}</code> 🎗\n\nChat Mention : [{message.chat.title}](https://t.me/{message.chat.username}) ", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print(e)
 
-#Download In Pm Without Any Command
+#Download In Pm Without Any Command 
 
-@Client.on_message(filters.text & filters.private & ~filters.command)
+@Client.on_message(filters.private & ~filters.command)
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
     FilterSongs = await SongsFilterForPMDL(client, message)
