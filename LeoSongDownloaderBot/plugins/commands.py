@@ -24,7 +24,7 @@ from helper.display_progress import progress_for_pyrogram, humanbytes, TimeForma
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from youtube_search import YoutubeSearch
-from LeoSongDownloaderBot.plugins.song_filter import SongsFilter
+from LeoSongDownloaderBot.plugins.song_filter import SongsFilterForCommandDL, SongsFilterForPMDL
 from LeoSongDownloaderBot import Bot
 from LeoSongDownloaderBot.translation import Translation
 from helper.forcesub import ForceSub
@@ -42,7 +42,7 @@ arq = ARQ("https://grambuilders.tech", ARQ_API_KEY, aiohttpsession)
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
-    FilterSongs = await SongsFilter(client, message)
+    FilterSongs = await SongsFilterForCommandDL(client, message)
     if FilterSongs == 200:
         return  
     query = ''
@@ -166,7 +166,7 @@ async def song(client: Client, message: Message):
 @Client.on_message(filters.text & filters.private)
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
-    FilterSongs = await SongsFilter(client, message)
+    FilterSongs = await SongsFilterForPMDL(client, message)
     if FilterSongs == 200:
         return  
     query = ''
