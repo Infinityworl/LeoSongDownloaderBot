@@ -293,16 +293,16 @@ async def cb_data(Client, msg:CallbackQuery):
             reply_markup=Translation.HELP_BUTTONS
         )
     elif msg.data == "help_for_yt":
-        await msg.answer(f"{msg.from_user.first_name},\nPlease use the below format to download songs from YouTube 😊\n\nFormat : /song song_name 💫", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\n\nSend Your Song Name Directly To The Bot's PM To Download Songs(No Need Any Command For For Download Songs In Bot's PM)\n\nPlease Use The Below Format To Download Songs From YouTube In Groups😊\n\nFormat : /song song_name 💫", show_alert=True)
     
     elif msg.data == "help_for_saavn":
-        await msg.answer(f"{msg.from_user.first_name},\nPlease use the below format to download song from Saavn 😊\n\nFormat : /saavn song_name 💫", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\n\nPlease Use The Below Format To Download Songs From Saavn 😊\n\nFormat : /saavn song_name 💫", show_alert=True)
     
     elif msg.data == "help_for_lyrics_down":
-        await msg.answer(f"{msg.from_user.first_name},\nplease use the below format to download lyrics 😊\n\nFormat : /lyrics song_name 💫", show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\n\nPlease Use The Below Format To Download Lyrics 😊\n\nFormat : /lyrics song_name 💫", show_alert=True)
 
     elif msg.data == "help_for_url_dl":
-        await msg.answer(f"{msg.from_user.first_name},\n Simply copy an url from YT and Paste it on this bot 😊" , show_alert=True)
+        await msg.answer(f"{msg.from_user.first_name},\n\nSimply Copy An Url From YT and Paste It On This Bot 😊" , show_alert=True)
     
     elif msg.data == "bot_users_count":
         user_count = await db.total_users_count()
