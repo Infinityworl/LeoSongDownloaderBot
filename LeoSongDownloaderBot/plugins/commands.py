@@ -163,7 +163,7 @@ async def song(client: Client, message: Message):
 
 #Download In Pm Without Any Command 
 
-@Client.on_message(filters.private & ~filters.command)
+@Client.on_message(filters.text & filters.privatetest)
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
     FilterSongs = await SongsFilterForPMDL(client, message)
