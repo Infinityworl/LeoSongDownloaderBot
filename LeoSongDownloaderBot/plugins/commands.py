@@ -167,7 +167,9 @@ async def song(client: Client, message: Message):
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
     FilterSongs = await SongsFilterForPMDL(client, message)
-    if FilterSongs == 200:
+    if message.text.startswith("/"):
+        return
+    elif FilterSongs == 200:
         return  
     query = ''
     for i in message.text:
