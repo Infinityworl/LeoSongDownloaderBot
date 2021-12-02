@@ -7,7 +7,7 @@ API_HASH = os.getenv("API_HASH", "227f3bd8c1d7fc3ecfa243e1a85dd2fa")
 BOT_TOKEN = os.getenv("BOT_TOKEN", "1698103524:AAELXi7-8EIlavo4etUiOLW-wIMCFRHtV94")
 UPDATES_CHANNEL = int(os.environ.get("UPDATES_CHANNEL", -1001231683570))
 BOT_USERNAME = "leosongdownloaderbot"
-SESSION_NAME = os.environ.get("SESSION_NAME", "LeoSongDownloaderBot")
+SESSION_NAME = os.environ.get("SESSION_NAME", "LeoSongDownloaderBotx")
 BOT_OWNER = int(os.environ.get("BOT_OWNER", 1069002447))
 BROADCAST_AS_COPY = bool(os.environ.get("BROADCAST_AS_COPY", False))
 MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb+srv://navindu:navi18572@cluster0.9yrur.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
