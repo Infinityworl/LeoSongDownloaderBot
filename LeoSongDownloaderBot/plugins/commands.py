@@ -37,7 +37,7 @@ is_downloading = False
 
 aiohttpsession = aiohttp.ClientSession()
 
-arq = ARQ("https://grambuilders.tech", ARQ_API_KEY, aiohttpsession)
+arq = ARQ("http://thearq.tech/", ARQ_API_KEY, aiohttpsession)
 
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
