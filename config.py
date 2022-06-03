@@ -1,4 +1,4 @@
-# Leo Projects <https://t.me/leosupportx>
+# Leo Projects <https://t.me/LeoProjectsX>
 
 import os
 
