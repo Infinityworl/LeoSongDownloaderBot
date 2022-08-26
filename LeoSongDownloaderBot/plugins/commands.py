@@ -42,7 +42,9 @@ arq = ARQ("http://thearq.tech/", ARQ_API_KEY, aiohttpsession)
 @Client.on_message(filters.command(['song', f'song@{BOT_USERNAME}']))
 async def song(client: Client, message: Message):
     await AddUserToDatabase(client, message)
-    await client.send_message(chat_id=-1001798574985, text=message.from_user.id)
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     FilterSongs = await SongsFilterForCommandDL(client, message)
     if FilterSongs == 200:
         return  
@@ -179,6 +181,9 @@ async def download_song(url):
 # Jiosaavn Music Downloader
 @Client.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
 async def jssong(client, message):
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     global is_downloading
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to download songs from saavn 👇\n\n<code>/saavn song_name</code>".format(message.from_user.mention))
@@ -301,6 +306,9 @@ async def deezsong(client, message):
 # Song Lyrics Downloader
 @Client.on_message(filters.command(['lyrics', f'lyrics@{BOT_USERNAME}']))
 async def lyrics_func(client, message):
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     if len(message.command) < 2:
         await message.reply_text("{},\n\nUse this format to get lyrics 👇\n\n<code>/lyrics song_name</code>".format(message.from_user.mention))
         return
