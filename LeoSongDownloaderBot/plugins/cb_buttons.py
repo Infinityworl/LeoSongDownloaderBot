@@ -29,6 +29,9 @@ s2tw = OpenCC('s2tw.json').convert
                    & filters.regex(YTDL_REGEX))
 async def ytdl_with_button(client: Client, message: Message):
     await client.send_chat_action(chat_id=message.chat.id, action="typing")
+    FSub = await ForceSub(client, message)
+    if FSub == 400:
+        return
     await message.reply_text(
         "**Please click the below button to download your song 😊**",
         reply_markup=InlineKeyboardMarkup(
