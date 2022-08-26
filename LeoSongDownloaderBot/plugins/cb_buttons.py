@@ -372,7 +372,7 @@ async def cb_data(Client, msg:CallbackQuery):
                     disable_web_page_preview=True
                 )
                 return
-        await msg.answer(f"Hey {msg.from_user.first_name} ,\n\nNow You can Download Songs From Me !!\n\nSimply Enter Song's Name In Correct Format 😊", show_alert=True)
+        await msg.answer(f"Hey {msg.from_user.first_name} ,\n\nYou Got Access !!\n\nSend Me The Song Name In Correct Format To Download 🌝", show_alert=True)
         await msg.message.delete()
     else:
         await msg.message.delete()
