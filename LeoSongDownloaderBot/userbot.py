@@ -31,7 +31,7 @@ class User(Client):
     async def start(self):
         await super().start()
         usr_bot_me = await self.get_me()
-        self.set_parse_mode("html")
+        self.set_parse_mode("markdown")
         return (self, usr_bot_me.id)
     
     async def stop(self, *args):
