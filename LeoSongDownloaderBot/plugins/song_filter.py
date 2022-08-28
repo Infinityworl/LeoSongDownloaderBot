@@ -11,7 +11,7 @@ async def SongsFilterForCommandDL(client: Bot, message: Message):
         return
     try:
         async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text[5:], filter="audio", limit=1):
-            message_id = msg.message_id   
+            message_id = msg.id   
             await message.reply_chat_action("upload_audio")                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
             await x.edit("**Now I'm Uploading 💫**")
@@ -52,7 +52,7 @@ async def SongsFilterForPMDL(client: Bot, message: Message):
         return
     try:
         async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text, filter="audio", limit=1):
-            message_id = msg.message_id   
+            message_id = msg.id   
             await message.reply_chat_action("upload_audio")                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
             await x.edit("**Now I'm Uploading 💫**")
