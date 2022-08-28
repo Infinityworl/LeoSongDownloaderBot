@@ -118,7 +118,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                             message,
                             start_time
                         ),  
-                        parse_mode='md',
+                        parse_mode=enums.ParseMode.MARKDOWN,
                         thumb=thumbnail_file,
                         reply_markup=InlineKeyboardMarkup(
                             [[
@@ -143,7 +143,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                             message,
                             start_time
                         ),  
-                        parse_mode='HTML',
+                        parse_mode=enums.ParseMode.HTML,
                         thumb=thumbnail_file,
                         reply_markup=InlineKeyboardMarkup(
                             [[
@@ -227,7 +227,7 @@ async def cb_data(Client, msg:CallbackQuery):
                 await msg.message.reply_text(
                     text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It is not Started With '-100 ' 😒</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
-                    parse_mode="html"
+                    parse_mode=enums.ParseMode.HTML
                 )
             if len(ask_.text) >= 13:
                 pass
@@ -236,7 +236,7 @@ async def cb_data(Client, msg:CallbackQuery):
                 await msg.message.reply_text(
                     text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Group Id 😐</b>\n\n<b>It Missed {missed_words} Words ❗</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="group")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
-                    parse_mode="html"
+                    parse_mode=enums.ParseMode.HTML
                 )
         except TimeoutError:
             await msg.answer(f"Sorry {msg.from_user.first_name}, Sorry Timed Out !!", show_alert=False)
@@ -269,7 +269,7 @@ async def cb_data(Client, msg:CallbackQuery):
                 await msg.message.reply_text(
                     text=f"<b>Sorry</b> {msg.from_user.mention} !\n\n <b>You Entered</b> <code>{ask_.text}</code> <b>Is Not Correct Channel Id 😐</b>\n\n<b>Because It is not Started With '-100 ' 😒</b>",
                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Retry 💫", callback_data="channel")],[InlineKeyboardButton("Close ❌", callback_data="close")]]),
-                    parse_mode="html"
+                    parse_mode=enums.ParseMode.HTML
                 )
             if len(ask_.text) >= 13:
                 pass
@@ -346,7 +346,7 @@ async def cb_data(Client, msg:CallbackQuery):
                 if user.status == "kicked":
                     await msg.message.edit(
                         text="Sorry Sir, You are Banned to use me. Contact my [Support Group](https://t.me/leosupportx).",
-                        parse_mode="markdown",
+                        parse_mode=enums.ParseMode.MARKDOWN,
                         disable_web_page_preview=True
                     )
                     return
@@ -363,13 +363,13 @@ async def cb_data(Client, msg:CallbackQuery):
                             ]
                         ]
                     ),
-                    parse_mode="HTML"
+                    parse_mode=enums.ParseMode.HTML
                 )
                 return
             except Exception:
                 await msg.message.edit(
                     text="Something went Wrong. Contact my [Support Group](https://t.me/leosupportx).",
-                    parse_mode="markdown",
+                    parse_mode=enums.ParseMode.MARKDOWN
                     disable_web_page_preview=True
                 )
                 return
