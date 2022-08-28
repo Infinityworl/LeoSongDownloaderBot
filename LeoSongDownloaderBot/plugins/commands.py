@@ -92,7 +92,7 @@ async def song(client: Client, message: Message):
                     await m.edit("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
                     ydl.process_info(info_dict)
                     audio_file = ydl.prepare_filename(info_dict)
-                    await client.send_chat_action(chat_id=message.chat.id, action="upload_audio") 
+                    await client.send_chat_action(chat_id=message.chat.id, action=enums.ChatAction.UPLOAD_AUDIO) 
                     rep = f'🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n⏱️ **Song Duration**: `{duration}`\n👁‍🗨 **Song Views**: `{views}`\n🗣 **Released By** :` {channel}`\n\n**Downloaded By** : @leosongdownloaderbot 🇱🇰'
                     start_time = time.time()
                     secmul, dur, dur_arr = 1, 0, duration.split(':')
