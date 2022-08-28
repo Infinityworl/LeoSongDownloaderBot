@@ -25,7 +25,6 @@ YTDL_REGEX = (r"^((?:https?:)?\/\/)"
 s2tw = OpenCC('s2tw.json').convert
 
 @app.on_message(filters.text
-                   & ~filters.edited
                    & filters.regex(YTDL_REGEX))
 async def ytdl_with_button(client: Client, message: Message):
     await client.send_chat_action(chat_id=message.chat.id, action="typing")
