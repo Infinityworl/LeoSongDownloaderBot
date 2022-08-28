@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 class User(Client):
     def __init__(self):
         super().__init__(
-            TG_USER_SESSION,
+            session_string=TG_USER_SESSION,
             api_hash=API_HASH,
             api_id=API_ID,
             workers=4
