@@ -2,6 +2,7 @@ import logging
 
 from pyrogram import (
     Client,
+    enums,
     __version__
 )
 
@@ -30,6 +31,7 @@ class User(Client):
 
     async def start(self):
         await super().start()
+        self.set_parse_mode(enums.ParseMode.HTML)
         usr_bot_me = await self.get_me()
         return (self, usr_bot_me.id)
     
