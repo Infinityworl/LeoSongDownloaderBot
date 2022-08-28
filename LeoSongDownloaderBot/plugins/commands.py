@@ -179,7 +179,7 @@ async def download_song(url):
     return song_name
 
 # Jiosaavn Music Downloader
-@Client.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']) & ~filters.edited)
+@Client.on_message(filters.command(['saavn', f'saavn@{BOT_USERNAME}']))
 async def jssong(client, message):
     FSub = await ForceSub(client, message)
     if FSub == 400:
@@ -265,7 +265,7 @@ async def jssong(client, message):
     is_downloading = False
 
 # currently not working  !!
-@Client.on_message(filters.command('deezer') & ~filters.edited)
+@Client.on_message(filters.command('deezer'))
 async def deezsong(client, message):
     global is_downloading
     if len(message.command) < 2:
