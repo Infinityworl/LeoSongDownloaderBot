@@ -369,7 +369,7 @@ async def cb_data(Client, msg:CallbackQuery):
             except Exception:
                 await msg.message.edit(
                     text="Something went Wrong. Contact my [Support Group](https://t.me/leosupportx).",
-                    parse_mode=enums.ParseMode.MARKDOWN
+                    parse_mode=enums.ParseMode.MARKDOWN,
                     disable_web_page_preview=True
                 )
                 return
