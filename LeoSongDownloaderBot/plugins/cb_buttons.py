@@ -14,6 +14,7 @@ from pyrogram.errors import UserNotParticipant
 import yt_dlp
 from opencc import OpenCC
 from pyrogram import enums
+from helper.forcesub import ForceSub
 from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import Client as app
