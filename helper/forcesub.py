@@ -34,7 +34,7 @@ async def ForceSub(bot: Client, event: Message):
                 text="Sorry Dear, You are Banned to use me ☹️\nFeel free to say in our [Support Group](https://t.me/leosupportx).",
                 parse_mode="markdown",
                 disable_web_page_preview=True,
-                reply_to_message_id=event.message_id
+                reply_to_message_id=event.id
             )
             return 400
         else:
