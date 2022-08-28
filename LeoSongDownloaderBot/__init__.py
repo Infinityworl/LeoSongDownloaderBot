@@ -19,7 +19,7 @@ class Bot(Client):
 
     def __init__(self):
         super().__init__(
-            session_name="LeoSongDownloaderBotX",
+            name="LeoSongDownloaderBotX",
             api_hash=API_HASH,
             api_id=API_ID,
             plugins={
