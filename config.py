@@ -13,5 +13,4 @@ BROADCAST_AS_COPY = bool(os.environ.get("BROADCAST_AS_COPY", False))
 MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb+srv://navindu:navi18572@cluster0.9yrur.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", -1001511224747))
 ARQ_API_KEY = os.getenv("ARQ_API_KEY", "CKFTZZ-JANPYD-IAFUIP-SLJSLG-ARQ")
-TG_USER_SESSION = os.environ.get("TG_USER_SESSION", "BQAroNvCPX9Kd-WUEoNd6mgCl-GFnP4Bd_hsJNL5vJsI4-vWq6NhckEiwqMrHyepnTTsLFLLjniixXm0vabgm7asDhTgZ9OFAmzG5_mLQ29N8kwZy9F-MQG-oBvaBnTX6DVRyNoujKiB9qz_ox0ZIX5nWo_1kAgKFYJpmLy7MoRBSNRuK0hFB1ap2ZybwTaNu79hzXok8uQ44DG6aVnWD4xCKul6tGsxAiczitNeXyn52shzXXPR7KF_G53pAbBRD6M8Y41DNUEd1mQoRvXoXhpBmCCNAe7DG89eSpBJtBiAMgNBi9gzO8UziLg17ApBTzuH_y-e-6ctfbrXVOF5jOSQcgh0jgA")
-MAINCHANNEL_ID = -1001571768793
+TG_USER_SESSION = os.environ.get("TG_USER_SESSION", "BQBb-qe8TaX8qfJiUJI3flFp5V0qFLNPbA2YEwMazF-Ydhh2k4uFa680-rH4PfNGjjV49I_-AF8kLf0eqoR7Hqo1VEDoNFIbcOe1ckTh_O2Hlu8kQ4j8KlefdDsvznpJGTBSaoO1TJy57XLrb3B2y42ABdk0qUyn1VTWdQ9oLwodxvL-jNVyF6cpNVPwg12SVRvs1WbPaOHuKZFlLkfrl2qtREn2t_zCRhF7bbtO3E4ngv_YP80dVahqEi3Ta931O63ai8ssbcRtBr88gT_N5onluvXKPWYT5z_f0kyed2XI5bMgLazuo1l5xtosQk3twELUWQ-wTPOzSv7tKfRjoAiocgh0jgA")
