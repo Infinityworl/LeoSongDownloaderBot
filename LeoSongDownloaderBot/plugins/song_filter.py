@@ -4,6 +4,7 @@ import pyrogram
 from config import MAINCHANNEL_ID
 from LeoSongDownloaderBot import Bot
 from pyrogram import Client, filters
+from pyrogram import enums
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 async def SongsFilterForCommandDL(client: Bot, message: Message): 
@@ -12,7 +13,7 @@ async def SongsFilterForCommandDL(client: Bot, message: Message):
     try:
         async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text[5:], filter="audio", limit=1):
             message_id = msg.id   
-            await message.reply_chat_action("upload_audio")                  
+            await message.reply_chat_action(enums.ChatAction.UPLOAD_AUDIO)                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
             await x.edit("**Now I'm Uploading 💫**")
 
@@ -53,7 +54,7 @@ async def SongsFilterForPMDL(client: Bot, message: Message):
     try:
         async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text, filter="audio", limit=1):
             message_id = msg.id   
-            await message.reply_chat_action("upload_audio")                  
+            await message.reply_chat_action(enums.ChatAction.UPLOAD_AUDIO)                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
             await x.edit("**Now I'm Uploading 💫**")
 
