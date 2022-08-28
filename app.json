@@ -11,51 +11,6 @@
     "Telegram": "https://t.me/naviya2",
     "repository": "https://github.com/Naviya2/LeoSongDownloaderBot",
     "success_url": "https://t.me/new_ehi",
-    "env": {
-        "BOT_TOKEN": {
-            "description": "Your Telegram Bot Token from @BotFather",
-            "value": ""
-        },
-        "API_HASH": {
-            "description": "Your API Hash from my.telegram.org",
-            "value": ""
-        },
-        "API_ID": {
-            "description": "Your APP ID from my.telegram.org",
-            "value": ""
-        },
-        "UPDATES_CHANNEL": {
-            "description": "Channel id for force sub",
-            "value": ""
-        },
-        "BOT_OWNER": {
-            "description": "Bot Owner UserID"
-        },
-        "MONGODB_URI": {
-            "description": "MongoDB Database URI for Saving UserID for Broadcast"
-        },
-        "LOG_CHANNEL": {
-            "description": "Logs Channel ID for some Tracking XD. Example: -100123456789"
-        },
-        "SESSION_NAME": {
-            "description": "Any Bot Session Name."
-        },
-        "HEROKU_APP_NAME": {
-          "description": "Your Heroku App Name!",
-          "required": true,
-          "value": ""
-        },
-        "HEROKU_API_KEY": {
-          "description": "Your Heroku Api Key!",
-          "required": true,
-          "value": ""
-        },
-        "UPSTREAM_REPO": {
-          "description": "Github Repo Url !",
-          "required": false,
-          "value": "https://github.com/Naviya2/LeoSongDownloaderBot"
-        }
-    },
     "addons": [],
     "buildpacks": [
         {
