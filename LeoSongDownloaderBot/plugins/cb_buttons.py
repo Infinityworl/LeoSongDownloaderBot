@@ -13,6 +13,7 @@ from asyncio import TimeoutError
 from pyrogram.errors import UserNotParticipant
 import yt_dlp
 from opencc import OpenCC
+from pyrogram import enums
 from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import Client as app
@@ -27,7 +28,7 @@ s2tw = OpenCC('s2tw.json').convert
 @app.on_message(filters.text
                    & filters.regex(YTDL_REGEX))
 async def ytdl_with_button(client: Client, message: Message):
-    await client.send_chat_action(chat_id=message.chat.id, action="typing")
+    await client.send_chat_action(chat_id=message.chat.id, action=enums.ChatAction.UPLOAD_AUDIO)
     FSub = await ForceSub(client, message)
     if FSub == 400:
         return
