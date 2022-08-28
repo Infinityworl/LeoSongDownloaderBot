@@ -34,8 +34,8 @@ class Bot(Client):
         await super().start()
         usr_bot_me = await self.get_me()
         self.USER, self.USER_ID = await User().start()
-        self.LOGGER(__name__).info("Assitant Started !!")
+        self.LOGGER.info("Assitant Started !!")
 
     async def stop(self, *args):
         await super().stop()
-        self.LOGGER(__name__).info("Bot stopped. Bye.")
+        self.LOGGER.info("Bot stopped. Bye.")
