@@ -118,7 +118,7 @@ async def song(client: Client, message: Message):
                                 start_time
                             ),  
                             thumb=thumb_name, 
-                            parse_mode="md", 
+                            parse_mode=enums.ParseMode.MARKDOWN, 
                             title=title,
                             duration=dur,
                             reply_markup=InlineKeyboardMarkup(
@@ -141,7 +141,7 @@ async def song(client: Client, message: Message):
                             m,
                             start_time),  
                         thumb=thumb_name, 
-                        parse_mode="md", 
+                        parse_mode=enums.ParseMode.MARKDOWN, 
                         title=title,
                         duration=dur,
                         reply_markup=InlineKeyboardMarkup(
