@@ -3,7 +3,7 @@ pytz
 requests
 yt_dlp
 aiohttp
-pyrogram==2.0.41
+pyrogram
 Tgcrypto
 asyncio
 wget
