@@ -54,7 +54,7 @@ async def ForceSub(bot: Client, event: Message):
                 ]
             ),
             parse_mode="html",
-            reply_to_message_id=event.message_id
+            reply_to_message_id=event.id
         )
         return 400
     except FloodWait as e:
