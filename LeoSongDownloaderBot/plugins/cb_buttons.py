@@ -182,7 +182,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
             chat_id=msg.from_user.id, 
-            message_ids=msg.message.message_id
+            message_ids=msg.message.id
         )
         await msg.answer(f"{msg.from_user.first_name} ,Successfully Sent To Your PM 💫", show_alert=False)
     
@@ -190,7 +190,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
             chat_id=-1001523985078, 
-            message_ids=msg.message.message_id
+            message_ids=msg.message.id
         )
         await msg.answer(f"{msg.from_user.first_name}, Successfully Reported To Owner 💫", show_alert=False)
         await asyncio.sleep(3)
@@ -214,7 +214,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await Client.send_message(
             text="Please Enter Your Group ID : ",
             chat_id=msg.message.chat.id,
-            reply_to_message_id=msg.message.message_id,
+            reply_to_message_id=msg.message.id,
             reply_markup=ForceReply()
         )
         try:
@@ -242,7 +242,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
             chat_id=int(ask_.text), 
-            message_ids=msg.message.message_id
+            message_ids=msg.message.id
         )
         await msg.message.reply_text(
             text=f"**Successfully Forwarded To** {ask_.text} 😊",
@@ -256,7 +256,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await Client.send_message(
             text="Please Enter Your Channel ID : ",
             chat_id=msg.message.chat.id,
-            reply_to_message_id=msg.message.message_id,
+            reply_to_message_id=msg.message.id,
             reply_markup=ForceReply()
         )
         try:
@@ -284,7 +284,7 @@ async def cb_data(Client, msg:CallbackQuery):
         await Client.forward_messages(
             from_chat_id=msg.message.chat.id,
             chat_id=int(ask_.text), 
-            message_ids=msg.message.message_id
+            message_ids=msg.message.id
         )
         await msg.message.reply_text(
             text=f"**Successfully Forwarded To** {ask_.text} 😊",
