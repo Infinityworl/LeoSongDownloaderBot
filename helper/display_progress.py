@@ -2,6 +2,7 @@
 
 import math
 import time
+from pyrogram import enums
 
 PROGRESS = """
 📊 Percentage : {0}%
@@ -42,7 +43,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
                     ud_type,
                     tmp
                 ),
-                parse_mode='markdown'
+                parse_mode=enums.ParseMode.MARKDOWN
             )
         except:
             pass
