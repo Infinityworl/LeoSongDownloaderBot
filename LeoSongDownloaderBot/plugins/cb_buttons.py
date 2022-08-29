@@ -53,7 +53,7 @@ async def callback_query_ytdl_audio(client, callback_query):
     try:
         url = callback_query.message.reply_to_message.text
         ydl_opts = {
-            'format': 'bestaudio[ext=mp3]',
+            'format': 'bestaudio[ext=m4a]',
             'outtmpl': '%(title)s - %(extractor)s-%(id)s.%(ext)s',
             'writethumbnail': True
         }
