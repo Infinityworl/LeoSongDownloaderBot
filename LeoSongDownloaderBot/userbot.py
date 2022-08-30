@@ -32,6 +32,10 @@ class User(Client):
     async def start(self):
         await super().start()
         usr_bot_me = await self.get_me()
+        await self.USER.send_message(
+            chat_id=usr_bot_me.username,
+            text="😬🤒🤒"
+        )
         return (self, usr_bot_me.id)
     
     async def stop(self, *args):
