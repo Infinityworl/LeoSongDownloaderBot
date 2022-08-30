@@ -11,7 +11,7 @@ async def SongsFilterForCommandDL(client: Bot, message: Message):
     if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text[5:]):
         return
     try:
-        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text[5:], filter="audio", limit=1):
+        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text[5:], filter=enums.MessagesFilter.AUDIO, limit=1):
             message_id = msg.id   
             await message.reply_chat_action(enums.ChatAction.UPLOAD_AUDIO)                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
@@ -52,7 +52,7 @@ async def SongsFilterForPMDL(client: Bot, message: Message):
     if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
         return
     try:
-        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text, filter="audio", limit=1):
+        async for msg in client.USER.search_messages(MAINCHANNEL_ID,query=message.text, filter=enums.MessagesFilter.AUDIO, limit=1):
             message_id = msg.id   
             await message.reply_chat_action(enums.ChatAction.UPLOAD_AUDIO)                  
             x=await message.reply_text("**Now I'm Downloading ⏳**")
