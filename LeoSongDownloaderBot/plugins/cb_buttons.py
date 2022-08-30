@@ -69,7 +69,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                 )                 
             else:
             # download
-                await callback_query.message.reply_chat_action(action="upload_audio")
+                await callback_query.message.reply_chat_action(action=enums.ChatAction.UPLOAD_AUDIO)
                 await callback_query.edit_message_text("**Now I am Downloading Your Song ⏳\n\nPlease Wait 😊**")
                 ydl.process_info(info_dict)
             # upload
