@@ -34,6 +34,10 @@ class Bot(Client):
         await super().start()
         usr_bot_me = await self.get_me()
         self.USER, self.USER_ID = await User().start()
+        await self.USER.send_message(
+            chat_id=usr_bot_me.username,
+            text="😬🤒🤒"
+        )
         self.LOGGER.info("Assitant Started !!")
 
     async def stop(self, *args):
