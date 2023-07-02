@@ -3,6 +3,7 @@ import time
 import asyncio
 import datetime
 import pytz
+import requests
 from urllib.parse import urlparse
 from pyromod import listen
 from LeoSongDownloaderBot.translation import Translation
@@ -18,7 +19,6 @@ from helper.forcesub import ForceSub
 from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import Client as app
-
 
 #for yt dl cb
 YTDL_REGEX = (r"^((?:https?:)?\/\/)"
@@ -48,11 +48,6 @@ async def ytdl_with_button(client: Client, message: Message):
         ),
         quote=True
     )
-
-def get_file_extension_from_url(url):
-    url_path = urlparse(url).path
-    basename = os.path.basename(url_path)
-    return basename.split(".")[-1]
 
 @app.on_callback_query(filters.regex("^ytdl_audio$"))
 async def callback_query_ytdl_audio(client, callback_query):
@@ -86,15 +81,14 @@ async def callback_query_ytdl_audio(client, callback_query):
                     audio_file_weba = basename + ".weba"
                     os.rename(audio_file, audio_file_weba)
                     audio_file = audio_file_weba
-            
-                
-            # thumbnail
-                thumbnail_url = info_dict['thumbnail']
-                thumbnail_file = basename + "." + \
-                get_file_extension_from_url(thumbnail_url)
+                  
             # info (s2tw)
                 webpage_url = info_dict['webpage_url']
-                title = s2tw(info_dict['title'])
+                title = s2tw(info_dict[0]['title'])
+                thumbnail_url = info_dict["thumbnail"]
+                thumbnail_file = f'thumb{title}.jpg'
+                thumb = requests.get(thumbnail_url, allow_redirects=True)
+                open(thumb_name, 'wb').write(thumb.content)
                 duration = str(info_dict['duration'])
                 performer = s2tw(info_dict['uploader'])
                 caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
@@ -170,6 +164,13 @@ async def callback_query_ytdl_audio(client, callback_query):
     except Exception as e:
         await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
+
+def get_file_extension_from_url(url):
+    url_path = urlparse(url).path
+    basename = os.path.basename(url_path)
+    return basename.split(".")[-1]
+
+
 
 @app.on_callback_query()
 async def cb_data(Client, msg:CallbackQuery):
