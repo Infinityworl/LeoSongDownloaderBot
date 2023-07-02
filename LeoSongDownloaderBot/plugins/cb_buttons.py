@@ -90,7 +90,7 @@ async def callback_query_ytdl_audio(client, callback_query):
             # info (s2tw)
                 webpage_url = info_dict['webpage_url']
                 title = s2tw(info_dict['title'])
-                thumbnail_url = info_dict["thumbnails"]
+                thumbnail_url = info_dict[0]["thumbnails"]
                 thumbnail_file = basename + "." + \
                 get_file_extension_from_url(thumbnail_url)
                 duration = str(info_dict['duration'])
