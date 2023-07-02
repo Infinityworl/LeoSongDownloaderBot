@@ -85,7 +85,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                 webpage_url = info_dict['webpage_url']
                 title = s2tw(info_dict['title'])
                 thumbnail_url = info_dict[0]["thumbnails"][0]
-                thumbnail_file = f'thumb{title}.jpg
+                thumbnail_file = f'thumb{title}.jpg'
                 duration = str(info_dict['duration'])
                 performer = s2tw(info_dict['uploader'])
                 caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
