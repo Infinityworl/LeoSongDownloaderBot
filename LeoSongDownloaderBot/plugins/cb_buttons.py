@@ -19,7 +19,6 @@ from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import Client as app
 
-STARTIMG = "https://telegra.ph/file/1af5a6a6d1cd420c75261.jpg"
 
 #for yt dl cb
 YTDL_REGEX = (r"^((?:https?:)?\/\/)"
@@ -51,6 +50,11 @@ async def ytdl_with_button(client: Client, message: Message):
     )
 
 @app.on_callback_query(filters.regex("^ytdl_audio$"))
+def get_file_extension_from_url(url):
+    url_path = urlparse(url).path
+    basename = os.path.basename(url_path)
+    return basename.split(".")[-1]
+
 async def callback_query_ytdl_audio(client, callback_query):
     try:
         url = callback_query.message.reply_to_message.text
@@ -103,7 +107,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                         chat_id=-1001571768793,
                         audio=audio_file,
                         caption=caption,
-                        thumb=STARTIMG,
+                        thumb=thumbnail_file,
                         title=title,
                         duration=dur
                     )
@@ -121,7 +125,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                             start_time
                         ),  
                         parse_mode=enums.ParseMode.MARKDOWN,
-                        thumb=STARTIMG,
+                        thumb=thumbnail_file,
                         reply_markup=InlineKeyboardMarkup(
                             [[
                                 InlineKeyboardButton("Requested By ❓", url=f"https://t.me/{callback_query.from_user.username}")
@@ -146,7 +150,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                             start_time
                         ),  
                         parse_mode=enums.ParseMode.HTML,
-                        thumb=STARTIMG,
+                        thumb=thumbnail_file,
                         reply_markup=InlineKeyboardMarkup(
                             [[
                                 InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
@@ -166,13 +170,6 @@ async def callback_query_ytdl_audio(client, callback_query):
     except Exception as e:
         await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
-
-def get_file_extension_from_url(url):
-    url_path = urlparse(url).path
-    basename = os.path.basename(url_path)
-    return basename.split(".")[-1]
-
-
 
 @app.on_callback_query()
 async def cb_data(Client, msg:CallbackQuery):
