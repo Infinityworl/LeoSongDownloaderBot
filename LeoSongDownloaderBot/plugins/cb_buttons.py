@@ -80,15 +80,12 @@ async def callback_query_ytdl_audio(client, callback_query):
                     audio_file_weba = basename + ".weba"
                     os.rename(audio_file, audio_file_weba)
                     audio_file = audio_file_weba
-            
-                
-            # thumbnail
-                thumbnail_url = info_dict[0]["thumbnails"][0]
-                thumbnail_file = basename + "." + \
-                get_file_extension_from_url(thumbnail_url)
+                  
             # info (s2tw)
                 webpage_url = info_dict['webpage_url']
                 title = s2tw(info_dict['title'])
+                thumbnail_url = info_dict[0]["thumbnails"][0]
+                thumbnail_file = f'thumb{title}.jpg
                 duration = str(info_dict['duration'])
                 performer = s2tw(info_dict['uploader'])
                 caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
