@@ -19,6 +19,8 @@ from helper.display_progress import humanbytes, progress_for_pyrogram
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, Message, ForceReply
 from LeoSongDownloaderBot import Client as app
 
+STARTIMG = "https://telegra.ph/file/1af5a6a6d1cd420c75261.jpg"
+
 #for yt dl cb
 YTDL_REGEX = (r"^((?:https?:)?\/\/)"
               r"?((?:www|m)\.)"
@@ -101,7 +103,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                         chat_id=-1001571768793,
                         audio=audio_file,
                         caption=caption,
-                        thumb=thumbnail_file,
+                        thumb=STARTIMG,
                         title=title,
                         duration=dur
                     )
@@ -119,7 +121,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                             start_time
                         ),  
                         parse_mode=enums.ParseMode.MARKDOWN,
-                        thumb=thumbnail_file,
+                        thumb=STARTIMG,
                         reply_markup=InlineKeyboardMarkup(
                             [[
                                 InlineKeyboardButton("Requested By ❓", url=f"https://t.me/{callback_query.from_user.username}")
@@ -144,7 +146,7 @@ async def callback_query_ytdl_audio(client, callback_query):
                             start_time
                         ),  
                         parse_mode=enums.ParseMode.HTML,
-                        thumb=thumbnail_file,
+                        thumb=STARTIMG,
                         reply_markup=InlineKeyboardMarkup(
                             [[
                                 InlineKeyboardButton("Send To Bot's PM 💫", callback_data="sendtoib")
