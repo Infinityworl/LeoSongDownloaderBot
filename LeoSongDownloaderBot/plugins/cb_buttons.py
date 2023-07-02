@@ -49,6 +49,11 @@ async def ytdl_with_button(client: Client, message: Message):
         quote=True
     )
 
+def get_file_extension_from_url(url):
+    url_path = urlparse(url).path
+    basename = os.path.basename(url_path)
+    return basename.split(".")[-1]
+
 @app.on_callback_query(filters.regex("^ytdl_audio$"))
 async def callback_query_ytdl_audio(client, callback_query):
     try:
@@ -163,13 +168,6 @@ async def callback_query_ytdl_audio(client, callback_query):
     except Exception as e:
         await callback_query.message.reply_text(text=e, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Report To Owner 🧑‍💻", callback_data="report_to_owner")]]))
         print (e)
-
-def get_file_extension_from_url(url):
-    url_path = urlparse(url).path
-    basename = os.path.basename(url_path)
-    return basename.split(".")[-1]
-
-
 
 @app.on_callback_query()
 async def cb_data(Client, msg:CallbackQuery):
