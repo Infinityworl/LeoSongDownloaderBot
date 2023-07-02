@@ -3,6 +3,7 @@ import time
 import asyncio
 import datetime
 import pytz
+import requests
 from urllib.parse import urlparse
 from pyromod import listen
 from LeoSongDownloaderBot.translation import Translation
@@ -86,6 +87,8 @@ async def callback_query_ytdl_audio(client, callback_query):
                 title = s2tw(info_dict['title'])
                 thumbnail_url = info_dict[0]["thumbnails"][0]
                 thumbnail_file = f'thumb{title}.jpg'
+                thumb = requests.get(thumbnail_url, allow_redirects=True)
+                open(thumb_name, 'wb').write(thumb.content)
                 duration = str(info_dict['duration'])
                 performer = s2tw(info_dict['uploader'])
                 caption = f"🎙**Title**: `{title}`\n🎵 **Source** : `Youtube`\n\n**Downloaded By** : **@leosongdownloaderbot 🇱🇰**"
