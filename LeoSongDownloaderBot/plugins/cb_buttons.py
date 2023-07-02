@@ -83,7 +83,7 @@ async def callback_query_ytdl_audio(client, callback_query):
             
                 
             # thumbnail
-                thumbnail_url = info_dict['thumbnail']
+                thumbnail_url = info_dict[0]["thumbnails"][0]
                 thumbnail_file = basename + "." + \
                 get_file_extension_from_url(thumbnail_url)
             # info (s2tw)
