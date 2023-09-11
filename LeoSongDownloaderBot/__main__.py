@@ -1,8 +1,8 @@
-# Leo Projects <https://t.me/leosupportx>
-# @Naviya2 🇱🇰
+# infinity musiv <https://t.me/leosupportx>
+# @Nimsar_a 
 
 from pyromod import listen
-from LeoSongDownloaderBot import Bot
+from ifinityBot import Bot
 
 
 
